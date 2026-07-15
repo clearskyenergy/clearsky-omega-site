@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <meta name="description" content="ClearSky OMEGA is the AI-driven operating platform for energy infrastructure — a living, learning ecosystem unifying development, permitting, the virtual data center marketplace, procurement, and Virtual Power Plant optimization.">
+  <meta property="og:title" content="ClearSky OMEGA | The AI Operating Platform for Energy Infrastructure">
+  <meta property="og:description" content="ClearSky OMEGA is the AI-driven operating platform for energy infrastructure — a living, learning ecosystem unifying development, permitting, the virtual data center marketplace, procurement, and Virtual Power Plant optimization.">
+  <meta property="og:type" content="website">
+  <title>ClearSky OMEGA | The AI Operating Platform for Energy Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/omega.css">
+</head>
+<body>
+<div id="top"></div>
+  <!-- ============ TOP BANNER (SAP-style: utility bar + main nav) ============ -->
+  <header class="omega-banner">
+    <div class="util-bar">
+      <a class="util-hide" href="/enterprise.html">For Enterprise</a>
+      <span class="util-sep util-hide"></span>
+      <a class="util-hide" href="/partners.html">Partners</a>
+      <span class="util-sep util-hide"></span>
+      <a href="#" onclick="return false;"><span class="util-flag"></span>United States</a>
+      <span class="util-sep"></span>
+      <a class="util-login" href="/login.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Log in to OMEGA
+      </a>
+    </div>
+    <nav class="main-nav">
+      <a href="/" class="brand" aria-label="ClearSky OMEGA — home">
+        <img src="/clearsky-logo-light.png" alt="ClearSky OMEGA">
+      </a>
+      <div class="nav-links" id="navLinks">
+        <div class="mega">
+          <a href="/platform.html" class="nav-link">Platform
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="mega-panel">
+            <div class="mega-label">Develop &amp; permit</div>
+            <a class="mega-item" href="/platform.html"><div class="mi-t">Development platform</div><div class="mi-d">Site maps, one-lines, permit-ready exports</div></a>
+            <a class="mega-item" href="/ahj.html"><div class="mi-t">AHJ Approval Portal</div><div class="mi-d">Municipal permitting &amp; zoning review</div></a>
+            <div class="mega-label">Optimize &amp; source</div>
+            <a class="mega-item" href="/data.html"><div class="mi-t">Data &amp; optimization</div><div class="mi-d">Screening, ROI &amp; value-stack modeling</div></a>
+            <a class="mega-item" href="/marketplace.html"><div class="mi-t">Marketplace</div><div class="mi-d">Sourcing, procurement, capital &amp; VPP</div></a>
+          </div>
+        </div>
+        <a href="/data.html" class="nav-link">Data &amp; AI</a>
+        <a href="/marketplace.html" class="nav-link">Marketplace</a>
+        <a href="/energy.html" class="nav-link">Energy Projects</a>
+        <a href="/enterprise.html" class="nav-link">Enterprise</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Menu" onclick="toggleNav()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="nav-right">
+        <button class="nav-search" aria-label="Search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+        <a href="/contact.html" class="btn-demo">Request a demo</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO — SAP-style: minimal copy, neon frame is the clickable video -->
+  <section class="page-hero on-dark">
+    <div class="hero-wrap">
+      <p class="hero-eyebrow">The AI operating platform for energy infrastructure</p>
+      <h1>Not an app. A <span class="accent">living, learning</span> energy ecosystem.</h1>
+      <p class="hero-sub">Development, the virtual data center marketplace, procurement, capital, and Virtual Power Plant optimization — in one place.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openVideo()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> See OMEGA in action</button>
+        <a href="/contact.html" class="btn-ghost">Request a demo</a>
+      </div>
+      <div class="hero-visual">
+        <button class="hero-frame" onclick="openVideo()" aria-label="Play the ClearSky OMEGA showcase film">
+          <img src="/neon-hero.jpg" alt="ClearSky OMEGA showcase">
+          <span class="hero-play" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </span>
+        </button>
+        <span class="hero-caption"><span class="dot"></span>Watch the showcase film</span>
+      </div>
+    </div>
+  </section>
+
+  
+  <div class="proof">
+    <span class="proof-label">The platform enterprise energy teams build on</span>
+    <div class="proof-marks">
+      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V8l8-5 8 5v12"/></svg>EPCs</span>
+      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Developers</span>
+      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Asset owners &amp; investors</span>
+      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="6" rx="1.5"/><rect x="2" y="14" width="20" height="6" rx="1.5"/></svg>Utilities &amp; large accounts</span>
+    </div>
+  </div>
+
+
+  <!-- CAPABILITY STATEMENT -->
+  <section class="section-dark" id="ecosystem">
+    <div class="section">
+      <div class="section-head center">
+        <p class="eyebrow">One platform · every aspect of an energy enterprise</p>
+        <h2 class="section-title">We're not a system, a tool, or a piece of software.<br><span class="accent">We're a smart, growing ecosystem.</span></h2>
+        <p class="section-desc">OMEGA brings deep energy-project context, unified data, and purpose-built optimization together — so your organization can develop, permit, procure, finance, deploy, and operate energy infrastructure from a single intelligent platform that learns and improves with every project.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></div>
+          <div class="pillar-name">The power of the data</div>
+          <div class="pillar-desc">Market, utility, incentive, and site data unified in one model — screening candidates, ranking opportunities, and surfacing the strongest risk-adjusted return on every site.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M6 8h4M6 12h2"/></svg></div>
+          <div class="pillar-name">Virtual data center marketplace</div>
+          <div class="pillar-desc">Pair energy assets with edge AI compute — a marketplace layer that turns storage and interconnection into dual-revenue colocation priced per kW-month.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="pillar-name">Virtual Power Plant optimization</div>
+          <div class="pillar-desc">Stack SDVPP, grid injection, frequency regulation, and demand response across a fleet — with real-time dispatch that optimizes every revenue layer automatically.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="pillar-name">Everything in one place</div>
+          <div class="pillar-desc">Development, permitting, procurement, capital, and operations in a single environment — no stitching together apps, no lost context, no wasted cost or time.</div>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-n">10<span>yrs</span></div><div class="metric-l">Of partner performance history training the platform</div></div>
+        <div class="metric"><div class="metric-n">Real-<span>time</span></div><div class="metric-l">Optimization across dispatch, pricing &amp; the value stack</div></div>
+        <div class="metric"><div class="metric-n">1</div><div class="metric-l">Unified platform from site lead to operating asset</div></div>
+        <div class="metric"><div class="metric-n">AI-<span>driven</span></div><div class="metric-l">A living ecosystem that learns with every project</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE — links to subpages -->
+  <div class="section">
+    <div class="section-head">
+      <p class="eyebrow">What's inside OMEGA</p>
+      <h2 class="section-title">One platform, six ways it goes to work</h2>
+      <p class="section-desc">Every capability shares the same data, the same project context, and the same intelligence — so work done in one place makes every other part smarter.</p>
+    </div>
+    <div class="cards cols-3">
+      <a href="/platform.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+        <div class="card-name">Development platform</div>
+        <div class="card-desc">Take a site from raw parcel to permit-ready — site maps, one-lines, interconnection packages, and AHJ-ready exports.</div>
+        <span class="card-go">Explore the platform <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="/data.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="card-name">Data &amp; AI optimization</div>
+        <div class="card-desc">Ten years of performance history, value-stack modeling, and site ranking that makes every investment decision smarter.</div>
+        <span class="card-go">See the intelligence <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="/marketplace.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg></div>
+        <div class="card-name">Marketplace &amp; VPP</div>
+        <div class="card-desc">Source equipment, aggregate demand, place compute capacity, and optimize Virtual Power Plant revenue across the fleet.</div>
+        <span class="card-go">Open the marketplace <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="/energy.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="card-name">Energy projects</div>
+        <div class="card-desc">An active portfolio of BESS, EV charging, microgrids, and micro data centers across Illinois and PJM.</div>
+        <span class="card-go">View the portfolio <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="/enterprise.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+        <div class="card-name">Enterprise white-label</div>
+        <div class="card-desc">Run the entire ecosystem under your own brand, in your own environment — internalize engineering and cut outsourced cost.</div>
+        <span class="card-go">See enterprise <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="/ahj.html" class="card">
+        <div class="card-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg></div>
+        <div class="card-name">AHJ Approval Portal</div>
+        <div class="card-desc">A permitting coalition workspace where municipalities and AHJs review and approve storage permits in one place.</div>
+        <span class="card-go">Become a member <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  
+  <section class="cta-strip on-dark">
+    <div class="cta-inner">
+      <h2>Ready to see what a living energy platform can do?</h2>
+      <p>Book a walkthrough and we'll show you OMEGA running on a real site — from parcel to permit to operating asset.</p>
+      <div class="cta-actions">
+        <a href="/contact.html" class="btn-primary">Request a demo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <a href="/platform.html" class="btn-ghost">Explore the platform</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ VIDEO MODAL (SAP-style full-screen takeover) ============ -->
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="ClearSky OMEGA showcase">
+    <div class="video-topbar">
+      <div>
+        <h3>ClearSky OMEGA in action</h3>
+        <p class="vt-sub">The living energy platform — the data, the marketplace, and the projects it energizes.</p>
+      </div>
+      <div class="video-actions">
+        <button class="video-icon" aria-label="Share" onclick="return false;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg></button>
+        <button class="video-icon" aria-label="Email" onclick="return false;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></button>
+        <button class="video-close" aria-label="Close" onclick="closeVideo()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </div>
+    <div class="video-stage" id="videoStage">
+      <img src="/neon-hero.jpg" alt="">
+      <div class="video-placeholder">
+        <span class="vp-badge">Showcase film · coming soon</span>
+        <p>Our film is in production. Drop the final cut in as <code>omega-showcase.mp4</code> and it plays here full-screen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="/clearsky-logo-light.png" alt="ClearSky">
+        <p>The AI operating platform for energy infrastructure — development, permitting, the virtual data center marketplace, procurement, capital, and Virtual Power Plant optimization in one place.</p>
+        <span class="footer-tag">OMEGA · BESS · EV · MICROGRID · COMPUTE · VPP</span>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="/platform.html">Development platform</a>
+        <a href="/data.html">Data &amp; AI</a>
+        <a href="/ahj.html">AHJ Approval Portal</a>
+        <a href="/marketplace.html">Marketplace</a>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <a href="/enterprise.html">Enterprise white-label</a>
+        <a href="/energy.html">Energy projects</a>
+        <a href="/partners.html">Partners</a>
+        <a href="/contact.html">Contact sales</a>
+      </div>
+      <div class="footer-col">
+        <h4>Access</h4>
+        <a href="/login.html">Log in to OMEGA</a>
+        <a href="/contact.html">Request a demo</a>
+        <a href="mailto:info@csebuilders.com">info@csebuilders.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 ClearSky Builders LLC · ClearSky Energy Solutions LLC · Clinton, Iowa</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+  <script src="/omega.js"></script>
+</body>
+</html>
