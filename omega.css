@@ -59,9 +59,13 @@ img { max-width: 100%; }
 .util-sep { width: 1px; height: 14px; background: rgba(255,255,255,0.16); }
 .util-login { font-weight: 600; color: #FFFFFF !important; }
 .util-login svg { color: var(--cs-blue-bright); }
+/* Real flag, official 1:1.9 proportions and EO 10834 colors (/us-flag.svg).
+   Sized 21x11 so the ratio is honest instead of squashed to a square-ish box. */
 .util-flag {
-  width: 20px; height: 14px; border-radius: 2px; overflow: hidden; flex-shrink: 0;
-  background: linear-gradient(180deg,#b22234 0 46%, #fff 46% 54%, #3c3b6e 54% 100%);
+  width: 21px; height: 11px; border-radius: 1.5px; overflow: hidden; flex-shrink: 0;
+  background-image: url('/us-flag.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   border: 0.5px solid rgba(255,255,255,0.25);
 }
 

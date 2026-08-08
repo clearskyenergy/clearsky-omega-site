@@ -17,7 +17,8 @@ identical across pages because they all link the same `omega.css` / `omega.js`.
 - `platform.html` / `data.html` / `marketplace.html` / `energy.html` / `enterprise.html`
   / `ahj.html` / `partners.html` — interior pages (split hero: copy left, neon video right)
 - `contact.html` — request a demo (mailto form)
-- `login.html` — OMEGA gateway -> portal (`?go=1` auto-forwards; logic preserved)
+- `login.html` — the OMEGA gateway: every tenant signs in here, and the page routes
+  them to their own workspace. See "Tenant sign-in" below.
 
 ## Shared files
 - `omega.css` — all styles (header, hero, cards, bands, footer, full-screen video modal, responsive)
@@ -41,8 +42,34 @@ fills the modal. Since the modal markup is identical on every page, a find-and-r
 the .html files updates them all at once.
 
 ## Header login
-Top-right of the dark utility bar: "Log in to OMEGA" -> /login.html -> portal.
+Top-right of the dark utility bar: "Log in to OMEGA" -> /login.html.
 Main-nav right side: "Request a demo" -> /contact.html.
+
+## Tenant sign-in (`login.html`)
+It used to be a link to the admin console, which meant anyone who wasn't ClearSky
+staff hit "admin access only". Now every tenant signs in on this page:
+
+1. Email + password, or Google.
+2. The OMEGA loading screen covers the lookup.
+3. The page reads the account's own role docs (`omega_staff`, `org_members`,
+   `fin_profiles`, `mkt_profiles`, `vdc_profiles`) plus its email domain, folds
+   domain aliases exactly the way `orgAlias()` in firestore.rules does, and works
+   out which workspace it reaches.
+4. One workspace -> straight in. More than one -> a short chooser, remembered
+   for next time. None -> plain copy explaining what's still pending.
+
+**Before it works you must paste the Firebase web config** into the block at the
+top of the page's module script. Until then the page falls back to the old
+"Continue to OMEGA" button, so nothing is broken in the meantime.
+
+Handoff to the portal is one switch (`HANDOFF`) near the same block; it ships on
+`'prefill'`. `SSO-HANDOFF.md` explains the options and has the two small files
+that make the second login disappear entirely.
+
+## The flag
+`us-flag.svg` — official 1:1.9 proportions, real 50-star union, EO 10834 colours
+(#B31942 / #0A3161). Drawn once by `.util-flag` in `omega.css`, so every page
+picks it up. It replaced a three-band CSS gradient that was not the US flag.
 
 ## Note on local preview
 Pages use absolute paths (/omega.css, /neon-hero.jpg). These resolve correctly when served
