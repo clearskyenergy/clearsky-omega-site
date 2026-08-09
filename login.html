@@ -269,10 +269,18 @@
        staff never get a pointless "which one?" screen. Remove that line if
        csebuilders addresses should land somewhere else. */
     "clearsky-usa.com": OPS,
-    "csebuilders.com":  OPS
-    // "fenecon.com":          "https://...",
-    // "concordenergyusa.com": "https://...",
-    // "sunesol.com":          "https://..."
+    "csebuilders.com":  OPS,
+    "sunesol.com":     "https://sunesol.clearskyomega.com",
+    /* One entry covers fenecon.de and fenecon.us too — orgAlias() folds
+       them onto fenecon.com before this map is consulted, exactly as the
+       Firestore rules do. */
+    "fenecon.com":     "https://fenecon.clearskyomega.com"
+    /* Still unmapped, so they land on the portal: concordenergyusa.com,
+       iqgen.energy, rexelusa.com, moleculesystems.com, lightsmithenergy.com.
+       I have not guessed their subdomains — a wrong hostname is a dead page,
+       which is worse than the portal. Add them here, or set
+       omega_orgs/{orgId}.portalUrl in Firestore, which overrides this list
+       and needs no redeploy. */
   };
 
   /* Products that live inside the ClearSky portal itself. Left at the portal
