@@ -225,33 +225,41 @@
      so this page can never promise a door the database will refuse to open.
      ========================================================================== */
 
-  /* ---------- 1 · FIREBASE CONFIG  ← PASTE YOURS HERE ----------------------
-     Copy it straight out of the portal's own source; it is the public web
-     config and is meant to ship in the browser. Until it's filled in, this
-     page falls back to the old "Continue to OMEGA" button rather than showing
-     a login form that cannot work. */
+  /* ---------- 1 · FIREBASE CONFIG ----------------------------------------
+     Taken from the portal's own /config.js — the same project the Firestore
+     rules belong to. This is the public web config and is meant to ship in
+     the browser; the rules are what actually enforce access. */
   const FIREBASE_CONFIG = {
-    apiKey:            "PASTE_API_KEY",
-    authDomain:        "PASTE_PROJECT.firebaseapp.com",
-    projectId:         "PASTE_PROJECT_ID",
-    storageBucket:     "PASTE_PROJECT.appspot.com",
-    messagingSenderId: "PASTE_SENDER_ID",
-    appId:             "PASTE_APP_ID"
+    apiKey:            "AIzaSyABoM1lgOYUnd5ZadaoTMhYmA9cHa8Tyo0",
+    authDomain:        "clearsky-portal.firebaseapp.com",
+    projectId:         "clearsky-portal",
+    storageBucket:     "clearsky-portal.firebasestorage.app",
+    messagingSenderId: "742134484347",
+    appId:             "1:742134484347:web:ab0f95fd221536158481de"
   };
-  /* The database these rules belong to. Leave as-is unless the portal opens a
-     NAMED database — the rules header calls it clearsky-portal, so if that is
-     a named database rather than the default one, put that name here. */
+  /* 'clearsky-portal' in the rules header is the PROJECT name, not a named
+     Firestore database — so this stays as the default. */
   const DATABASE_ID = "(default)";
 
-  /* ---------- 2 · WHERE EACH KIND OF ACCOUNT LANDS ------------------------ */
+  /* ---------- 2 · WHERE EACH KIND OF ACCOUNT LANDS ------------------------
+     Every route points at the portal root for now, because I don't know your
+     real per-product paths and a guessed one would 404. The gateway still
+     works out WHICH kind of account this is and passes ?tenant= along, so
+     specialising a route later is a one-line change — for example:
+
+       admin: PORTAL + "/admin.html",
+       ops:   "https://alpha.clearskyomega.com",
+
+     While two routes share a URL the page skips the chooser and goes
+     straight there, so nobody sees a pointless pick-one screen. */
   const PORTAL = "https://clearsky-portal-h7d9.vercel.app";
   const ROUTES = {
-    workspace:   PORTAL,                            // a tenant's own OMEGA workspace
-    admin:       PORTAL + "/admin.html",            // ClearSky admin console
-    ops:         "https://alpha.clearskyomega.com", // ops console (reps)
-    financing:   PORTAL + "/financing.html",
-    marketplace: PORTAL + "/marketplace.html",
-    vdc:         PORTAL + "/vdc.html"
+    workspace:   PORTAL,   // a tenant's own OMEGA workspace
+    admin:       PORTAL,   // ClearSky admin console
+    ops:         PORTAL,   // ops console (reps)
+    financing:   PORTAL,
+    marketplace: PORTAL,
+    vdc:         PORTAL
   };
   /* A tenant on its own deployment goes here; everyone else uses ROUTES.workspace. */
   const TENANT_PORTALS = {
@@ -354,7 +362,20 @@
     ui.form.parentNode.insertBefore(a, ui.form);
     say("Paste the Firebase web config at the top of login.html to turn on tenant sign-in.", "info");
   } else {
-    startGateway();
+    /* If the SDK itself can't load (blocked network, CDN down), say so and
+       leave a working way through rather than a form that silently does
+       nothing on submit. */
+    startGateway().catch(function (err) {
+      console.error("[omega-gateway] SDK load failed", err);
+      ui.form.style.display = "none";
+      $("googleBtn").style.display = "none";
+      const a = document.createElement("a");
+      a.className = "btn-primary";
+      a.href = PORTAL;
+      a.textContent = "Continue to OMEGA";
+      ui.form.parentNode.insertBefore(a, ui.form);
+      say("Sign-in couldn't load just now. Use the button above, or try again in a moment.", "error");
+    });
   }
 
   async function startGateway() {
@@ -507,9 +528,12 @@
         if (found.blocked) { routing = false; return blockedPane(found.blocked, found.role); }
 
         /* One destination: go. Several: let them pick — unless they've already
-           picked before and are just coming back. */
+           picked before, or unless every option leads to the same URL anyway,
+           in which case a chooser would be a pointless extra click. */
         let dest = found.dests[0];
-        if (found.dests.length > 1) {
+        const distinct = [];
+        found.dests.forEach((d) => { if (distinct.indexOf(d.url) === -1) distinct.push(d.url); });
+        if (found.dests.length > 1 && distinct.length > 1) {
           let remembered = null;
           try { remembered = localStorage.getItem("omega:lastDest"); } catch (_) {}
           const match = found.dests.filter((d) => d.key === remembered)[0];
