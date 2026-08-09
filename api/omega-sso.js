@@ -43,19 +43,28 @@ const ALLOWED = [
   'https://clearskyomega.com',
   'https://www.clearskyomega.com',
   'https://clearsky-portal-h7d9.vercel.app',
-  'https://ogisolar.com',
-  'https://www.ogisolar.com',
-  'https://alpha.clearskyomega.com',
   'https://tools.csebuilders.com',
   'https://financing.csebuilders.com',
-  'https://nextnrg.csebuilders.com',
-  'https://sunesol.clearskyomega.com',
-  'https://fenecon.clearskyomega.com'
+  'https://nextnrg.csebuilders.com'
 ];
+
+/* Every tenant lives at <slug>.clearskyomega.com, so they are matched by
+   shape rather than listed one by one — otherwise onboarding a tenant would
+   mean editing and redeploying this file, and the first time somebody forgot,
+   sign-in would break for that tenant alone.
+
+   Deliberately anchored and single-label: it matches
+   fenecon.clearskyomega.com, and does NOT match
+   clearskyomega.com.attacker.example or evil.fenecon.clearskyomega.com. */
+const ALLOWED_PATTERN = /^https:\/\/[a-z0-9-]+\.clearskyomega\.com$/;
+
+function originAllowed(origin) {
+  return ALLOWED.includes(origin) || ALLOWED_PATTERN.test(origin);
+}
 
 export default async function handler(req, res) {
   const origin = req.headers.origin || '';
-  if (ALLOWED.includes(origin)) {
+  if (originAllowed(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -66,7 +75,7 @@ export default async function handler(req, res) {
 
   /* A request from an origin we don't run is refused outright — not merely
      left without CORS headers, which a non-browser client would ignore. */
-  if (origin && !ALLOWED.includes(origin)) {
+  if (origin && !originAllowed(origin)) {
     return res.status(403).json({ error: 'origin_not_allowed' });
   }
 
