@@ -194,6 +194,16 @@
         <p class="note" style="text-align:left;"><button type="button" class="link-quiet" id="signOutBtn2">Use a different account</button></p>
       </div>
 
+      <!-- STATE 4 · already signed in on this device -->
+      <div id="paneResume" class="choose" style="display:none;">
+        <h2>Welcome back</h2>
+        <p class="sub">You're already signed in on this device.</p>
+        <button type="button" class="btn-primary" id="resumeBtn" style="width:100%;justify-content:center;">
+          Continue as <span id="resumeEmail"></span>
+        </button>
+        <p class="note" style="text-align:left;"><button type="button" class="link-quiet" id="resumeOther">Sign in as someone else</button></p>
+      </div>
+
       <p class="redirect-msg" id="redirectMsg"></p>
     </div>
   </div>
@@ -241,29 +251,43 @@
      Firestore database — so this stays as the default. */
   const DATABASE_ID = "(default)";
 
-  /* ---------- 2 · WHERE EACH KIND OF ACCOUNT LANDS ------------------------
-     Every route points at the portal root for now, because I don't know your
-     real per-product paths and a guessed one would 404. The gateway still
-     works out WHICH kind of account this is and passes ?tenant= along, so
-     specialising a route later is a one-line change — for example:
+  /* ---------- 2 · WHERE EACH TENANT LANDS ---------------------------------
+     A tenant's destination is looked up in FIREBASE first, so adding a new
+     tenant never means editing this file. The gateway reads
 
-       admin: PORTAL + "/admin.html",
-       ops:   "https://alpha.clearskyomega.com",
+         omega_orgs/{orgId}
 
-     While two routes share a URL the page skips the chooser and goes
-     straight there, so nobody sees a pointless pick-one screen. */
+     and uses the first of these fields it finds: portalUrl, url, appUrl, site.
+     Your rules already let a signed-in user read their own org's document
+     (orgId == userOrg()), so nothing about them needs to change. To point
+     FENECON at its own app, all you do is set one field:
+
+         omega_orgs/fenecon.com  →  { portalUrl: "https://fenecon.example.com" }
+
+     TENANT_PORTALS below is only the fallback for orgs that have no document
+     or no URL field yet, and PORTAL is the fallback for everything else. */
   const PORTAL = "https://clearsky-portal-h7d9.vercel.app";
+  const ORG_URL_FIELDS = ["portalUrl", "url", "appUrl", "site"];
+
+  const TENANT_PORTALS = {
+    /* Taken from your own screenshot — OGI Solar runs its own app. Correct
+       or remove any of these; a value in Firestore always wins over this. */
+    "ogisolar.com": "https://ogisolar.com/auth/login"
+    // "fenecon.com":          "https://...",
+    // "concordenergyusa.com": "https://...",
+    // "sunesol.com":          "https://..."
+  };
+
+  /* Products that live inside the ClearSky portal itself. Left at the portal
+     root because I don't know your real per-product paths and a guess would
+     404 — specialising one is a single line here. */
   const ROUTES = {
-    workspace:   PORTAL,   // a tenant's own OMEGA workspace
-    admin:       PORTAL,   // ClearSky admin console
-    ops:         PORTAL,   // ops console (reps)
+    workspace:   PORTAL,
+    admin:       PORTAL,
+    ops:         PORTAL,
     financing:   PORTAL,
     marketplace: PORTAL,
     vdc:         PORTAL
-  };
-  /* A tenant on its own deployment goes here; everyone else uses ROUTES.workspace. */
-  const TENANT_PORTALS = {
-    // 'fenecon.com': 'https://fenecon.clearskyomega.com'
   };
 
   /* ---------- 3 · HANDOFF --------------------------------------------------
@@ -312,6 +336,7 @@
     signIn:  $("paneSignIn"),
     choose:  $("paneChoose"),
     blocked: $("paneBlocked"),
+    resume:  $("paneResume"),
     loading: $("omegaLoading"),
     status:  $("loadStatus"),
     msg:     $("formMsg"),
@@ -325,6 +350,7 @@
     ui.signIn.style.display  = name === "signIn"  ? "" : "none";
     ui.choose.style.display  = name === "choose"  ? "" : "none";
     ui.blocked.style.display = name === "blocked" ? "" : "none";
+    ui.resume.style.display  = name === "resume"  ? "" : "none";
   }
   function loading(on, text) {
     ui.loading.classList.toggle("on", !!on);
@@ -346,7 +372,14 @@
     const head = String(org || "").split(".")[0].replace(/[-_]+/g, " ");
     return head ? head.replace(/\b\w/g, (c) => c.toUpperCase()) : "Your";
   }
-  function portalFor(org) {
+  /* Firestore first, then the local map, then the portal. */
+  function portalFor(org, orgDoc) {
+    if (orgDoc) {
+      for (let i = 0; i < ORG_URL_FIELDS.length; i++) {
+        const v = orgDoc[ORG_URL_FIELDS[i]];
+        if (typeof v === "string" && v.indexOf("http") === 0) return v;
+      }
+    }
     return TENANT_PORTALS[org] || ROUTES.workspace;
   }
 
@@ -462,8 +495,12 @@
       const homeOrg = grantOrg || org;
 
       if (homeOrg) {
-        dests.push({ key: "workspace", url: portalFor(homeOrg), org: homeOrg,
-                     name: tenantName(homeOrg) + " workspace",
+        /* THE TENANT LOOKUP. Read after homeOrg is known, because a cross-org
+           grant can move someone into a tenant that isn't their email domain.
+           A denied or missing document just falls through to the local map. */
+        const orgDoc = await readDoc(["omega_orgs", homeOrg]);
+        dests.push({ key: "workspace", url: portalFor(homeOrg, orgDoc), org: homeOrg,
+                     name: (orgDoc && orgDoc.name) ? orgDoc.name : tenantName(homeOrg) + " workspace",
                      desc: "Projects, tools and dashboards" });
       }
 
@@ -668,19 +705,26 @@
     $("signOutBtn").addEventListener("click", signOut);
     $("signOutBtn2").addEventListener("click", signOut);
 
-    /* Already signed in on this device: resolve and go without asking again.
-       ?stay=1 holds the page so somebody can switch accounts.
-       ?email= prefills. ?go=1 is kept from the old page and now means
-       "don't pause on the chooser if we already know the answer". */
+    /* ── RETURNING VISITOR ────────────────────────────────────────────────
+       A Firebase session survives in this browser, so without this the page
+       would silently re-route the last person who signed in — every visit,
+       with no way to reach the form again. It ASKS instead.
+
+       ?go=1 keeps the old auto-forward behaviour for anything that links
+       straight through; ?stay=1 forces the form. */
     const params = new URLSearchParams(location.search);
     if (params.get("email")) ui.email.value = params.get("email");
-    if (params.get("stay") === "1") {
-      say("Signed out. Enter your work email to continue.", "info");
-    } else {
-      auth.onAuthStateChanged(A, (user) => {
-        if (user) route(user, { quick: params.get("go") === "1" });
-      });
-    }
+
+    $("resumeOther").addEventListener("click", signOut);
+
+    auth.onAuthStateChanged(A, (user) => {
+      if (!user) { showPane("signIn"); return; }
+      if (params.get("stay") === "1") { showPane("signIn"); return; }
+      if (params.get("go") === "1") { route(user, { quick: true }); return; }
+      $("resumeEmail").textContent = user.email || "this account";
+      $("resumeBtn").onclick = () => route(user, { quick: true });
+      showPane("resume");
+    });
   }
   </script>
 </body>
