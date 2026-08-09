@@ -194,16 +194,6 @@
         <p class="note" style="text-align:left;"><button type="button" class="link-quiet" id="signOutBtn2">Use a different account</button></p>
       </div>
 
-      <!-- STATE 4 · already signed in on this device -->
-      <div id="paneResume" class="choose" style="display:none;">
-        <h2>Welcome back</h2>
-        <p class="sub">You're already signed in on this device.</p>
-        <button type="button" class="btn-primary" id="resumeBtn" style="width:100%;justify-content:center;">
-          Continue as <span id="resumeEmail"></span>
-        </button>
-        <p class="note" style="text-align:left;"><button type="button" class="link-quiet" id="resumeOther">Sign in as someone else</button></p>
-      </div>
-
       <p class="redirect-msg" id="redirectMsg"></p>
     </div>
   </div>
@@ -336,7 +326,6 @@
     signIn:  $("paneSignIn"),
     choose:  $("paneChoose"),
     blocked: $("paneBlocked"),
-    resume:  $("paneResume"),
     loading: $("omegaLoading"),
     status:  $("loadStatus"),
     msg:     $("formMsg"),
@@ -350,7 +339,6 @@
     ui.signIn.style.display  = name === "signIn"  ? "" : "none";
     ui.choose.style.display  = name === "choose"  ? "" : "none";
     ui.blocked.style.display = name === "blocked" ? "" : "none";
-    ui.resume.style.display  = name === "resume"  ? "" : "none";
   }
   function loading(on, text) {
     ui.loading.classList.toggle("on", !!on);
@@ -552,6 +540,9 @@
 
     /* ---- The whole flow, once a user exists ------------------------------- */
     let routing = false;
+    /* Set the moment a sign-in on THIS page load succeeds, so the
+       start-clean sign-out above doesn't undo it. */
+    let justSignedIn = false;
     async function route(user, opts) {
       if (routing) return;
       routing = true;
@@ -655,6 +646,7 @@
       loading(true, "Signing you in");
       try {
         const cred = await auth.signInWithEmailAndPassword(A, email, pass);
+        justSignedIn = true;
         await route(cred.user, { quick: true });
       } catch (err) {
         loading(false);
@@ -672,6 +664,7 @@
       loading(true, "Signing you in");
       try {
         const cred = await auth.signInWithPopup(A, provider);
+        justSignedIn = true;
         await route(cred.user, { quick: true });
       } catch (err) {
         loading(false);
@@ -705,25 +698,23 @@
     $("signOutBtn").addEventListener("click", signOut);
     $("signOutBtn2").addEventListener("click", signOut);
 
-    /* ── RETURNING VISITOR ────────────────────────────────────────────────
-       A Firebase session survives in this browser, so without this the page
-       would silently re-route the last person who signed in — every visit,
-       with no way to reach the form again. It ASKS instead.
+    /* ── ALWAYS A FRESH SIGN-IN ───────────────────────────────────────────
+       A Firebase session survives in this browser, so arriving at this page
+       with one still live meant the last person to sign in got silently
+       re-routed, with no way back to the form. Every arrival now starts
+       clean: any session that this page load did not create is signed out
+       and the form is shown.
 
-       ?go=1 keeps the old auto-forward behaviour for anything that links
-       straight through; ?stay=1 forces the form. */
+       justSignedIn tells the two apart — it is set only by the handlers
+       below, so the sign-out never fires on the session we just made. */
     const params = new URLSearchParams(location.search);
     if (params.get("email")) ui.email.value = params.get("email");
 
-    $("resumeOther").addEventListener("click", signOut);
-
     auth.onAuthStateChanged(A, (user) => {
-      if (!user) { showPane("signIn"); return; }
-      if (params.get("stay") === "1") { showPane("signIn"); return; }
-      if (params.get("go") === "1") { route(user, { quick: true }); return; }
-      $("resumeEmail").textContent = user.email || "this account";
-      $("resumeBtn").onclick = () => route(user, { quick: true });
-      showPane("resume");
+      if (!user || justSignedIn) return;
+      auth.signOut(A).catch(() => {});
+      try { localStorage.removeItem("omega:lastDest"); } catch (_) {}
+      showPane("signIn");
     });
   }
   </script>
