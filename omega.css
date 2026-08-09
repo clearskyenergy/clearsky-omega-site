@@ -101,16 +101,26 @@ img { max-width: 100%; }
 .mega { position: relative; }
 .mega > .nav-link svg { transition: transform 0.2s; }
 .mega:hover > .nav-link svg { transform: rotate(180deg); }
+/* The panel is anchored to the LEFT EDGE of its trigger, not centred on it.
+   Centring (left:50% + translateX(-50%)) put half of a 620px panel to the left
+   of the Platform link — which sits near the left edge of the nav — so it hung
+   about 120px off-screen at 1440px wide and was clipped.
+
+   max-width keeps it inside the viewport on narrow windows; the 32px is the
+   two 16px gutters. If a dropdown is ever added to a nav item on the RIGHT
+   side, give it class="mega align-right" so it opens leftward instead. */
 .mega-panel {
-  position: absolute; top: calc(100% + 14px); left: 50%;
-  transform: translateX(-50%) translateY(-6px);
-  width: 620px; max-width: 88vw;
+  position: absolute; top: calc(100% + 14px); left: 0;
+  transform: translateY(-6px);
+  width: 620px; max-width: calc(100vw - 32px);
   background: var(--cs-navy); border: 0.5px solid var(--cs-border-blue);
   border-radius: 14px; padding: 20px; opacity: 0; visibility: hidden;
   transition: opacity 0.16s, transform 0.16s; box-shadow: var(--shadow-lg);
   display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; z-index: 210;
 }
-.mega:hover .mega-panel { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.mega:hover .mega-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+/* For a trigger on the right-hand side of the nav: open leftward. */
+.mega.align-right .mega-panel { left: auto; right: 0; }
 .mega-label { grid-column: 1 / -1; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cs-blue-bright); padding: 4px 10px 8px; }
 .mega-item { display: block; padding: 10px 12px; border-radius: 9px; text-decoration: none; transition: background 0.14s; }
 .mega-item:hover { background: rgba(0,174,239,0.10); }
