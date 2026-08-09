@@ -261,8 +261,24 @@
 
   const OPS = "https://alpha.clearskyomega.com";
 
+  /* Most tenants live at <slug>.clearskyomega.com, where the slug is the
+     first label of their email domain — sunesol.com → sunesol, fenecon.com →
+     fenecon, ogisolar.com → ogisolar. Anything not named in TENANT_PORTALS
+     below is sent there rather than to the shared portal, so a new tenant
+     works the moment its subdomain exists, with no code change.
+
+     Set TENANT_PATTERN to null to go back to the portal as the default. */
+  const TENANT_PATTERN = "https://{slug}.clearskyomega.com";
+
   const TENANT_PORTALS = {
-    "ogisolar.com":    "https://ogisolar.com/auth/login",
+    /* Exceptions to the pattern only.
+
+       OGI Solar is the reason this list still exists: their tenant is
+       ogi.clearskyomega.com, but the pattern derives "ogisolar" from the
+       email domain. The slug does not always match the domain, so any
+       tenant whose subdomain is shortened or renamed needs a line here —
+       or a portalUrl in omega_orgs, which wins over both. */
+    "ogisolar.com":    "https://ogi.clearskyomega.com",
     "nextnrg.com":     "https://nextnrg.csebuilders.com",
     /* ClearSky's own people work the ops console, not the tenant portal.
        csebuilders.com is folded here too — same company, same console — so
@@ -270,17 +286,10 @@
        csebuilders addresses should land somewhere else. */
     "clearsky-usa.com": OPS,
     "csebuilders.com":  OPS,
-    "sunesol.com":     "https://sunesol.clearskyomega.com",
-    /* One entry covers fenecon.de and fenecon.us too — orgAlias() folds
-       them onto fenecon.com before this map is consulted, exactly as the
-       Firestore rules do. */
-    "fenecon.com":     "https://fenecon.clearskyomega.com"
-    /* Still unmapped, so they land on the portal: concordenergyusa.com,
-       iqgen.energy, rexelusa.com, moleculesystems.com, lightsmithenergy.com.
-       I have not guessed their subdomains — a wrong hostname is a dead page,
-       which is worse than the portal. Add them here, or set
-       omega_orgs/{orgId}.portalUrl in Firestore, which overrides this list
-       and needs no redeploy. */
+    /* sunesol.com, fenecon.com and ogisolar.com are NOT listed: the pattern
+       already produces sunesol/fenecon/ogisolar.clearskyomega.com. One entry
+       would cover fenecon.de and .us too, since orgAlias() folds them onto
+       fenecon.com before this is consulted — same as the Firestore rules. */
   };
 
   /* Products that live inside the ClearSky portal itself. Left at the portal
@@ -378,13 +387,22 @@
   }
   /* Firestore first, then the local map, then the portal. */
   function portalFor(org, orgDoc) {
+    /* 1. Whatever Firestore says for this org, if anything. */
     if (orgDoc) {
       for (let i = 0; i < ORG_URL_FIELDS.length; i++) {
         const v = orgDoc[ORG_URL_FIELDS[i]];
         if (typeof v === "string" && v.indexOf("http") === 0) return v;
       }
     }
-    return TENANT_PORTALS[org] || ROUTES.workspace;
+    /* 2. A named exception. */
+    if (TENANT_PORTALS[org]) return TENANT_PORTALS[org];
+    /* 3. The <slug>.clearskyomega.com pattern. */
+    if (TENANT_PATTERN && org) {
+      const slug = org.split(".")[0];
+      if (slug) return TENANT_PATTERN.replace("{slug}", slug);
+    }
+    /* 4. The shared portal. */
+    return ROUTES.workspace;
   }
 
   /* No Firebase config yet — keep the old door working rather than shipping a
