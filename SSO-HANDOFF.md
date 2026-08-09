@@ -1,166 +1,109 @@
-# Seamless handoff: gateway → portal
+# One sign-in, every tenant
 
-`login.html` signs a person in, works out which workspace they belong to, and
-sends them to it. This file covers the last hop.
+Sign in once at `clearskyomega.com/login.html`, land inside your tenant's app
+already signed in. No second password prompt.
 
-## The thing that bites everyone
+Everything runs on the one Firebase project, `clearsky-portal`, which is what
+makes this possible at all.
 
-A Firebase session belongs to **the origin that created it**. A sign-in on
-`clearskyomega.com` is not a session on `clearsky-portal-h7d9.vercel.app` — the
-credentials live in that origin's IndexedDB and no amount of client code shares
-them across domains. So the gateway has to hand the session over deliberately.
+## Why a token and not the password
 
-`login.html` has one switch near the top for how:
+A Firebase session belongs to the **origin that created it**. A sign-in at
+`clearskyomega.com` is not a session at `ogisolar.com`, same project or not —
+the credentials live in that origin's IndexedDB and no client-side code shares
+them across domains.
 
-| `HANDOFF` | What happens | Needs |
-|---|---|---|
-| `'prefill'` | Portal's own login opens with the email filled in | nothing — **shipped as the default** |
-| `'token'` | Portal signs them in silently. No second login. | the two files below |
-| `'same'` | Nothing to pass — this page is served from the portal's own origin | nothing |
+Passing the password through would work and would be a real credential leak:
+URLs land in browser history, server access logs, and the `Referer` header of
+the next request. So the gateway hands over a short-lived **ID token** in the
+URL *fragment* (never sent to a server), the tenant app trades it for a
+**custom token**, and that creates the session. Nothing secret is exposed, and
+the token is refused more than five minutes after sign-in.
 
-`'prefill'` is the default so the page works the moment you paste in the
-Firebase config. Move to `'token'` once the two files below are live.
+## Three steps
 
----
+### 1. Service account key
 
-## Option A — skip all of this
+Firebase Console → Project settings → Service accounts → **Generate new
+private key**. You get a JSON file.
 
-Deploy `login.html` **inside the portal repo too**, at
-`clearsky-portal-h7d9.vercel.app/login.html`, and point the marketing site's
-"Log in to OMEGA" at that URL instead of `/login.html`. Same origin, so the
-session is already real. Set `HANDOFF = 'same'`.
+In Vercel, on the **clearsky-omega-site** project → Settings → Environment
+Variables, add:
 
-You'd want to inline the small amount of `omega.css` the header uses, or drop
-the site header from that copy. Zero backend, nothing to keep in sync but the
-tenant list.
+| Name | Value |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | the entire JSON, on one line |
 
----
+This key can act as any user in the project. Environment variable only —
+never in the repo, never in the browser.
 
-## Option B — the token exchange
+### 2. Deploy the site
 
-Two files in the **portal** repo. The gateway sends an ID token in the URL
-fragment; this trades it for a custom token, which does create a session on the
-portal's origin.
+`api/omega-sso.js` and `package.json` are already in the repo. Vercel sees the
+`api` folder and runs it as a serverless function; `package.json` tells it to
+install `firebase-admin`. Push and it builds.
 
-### 1. `api/omega-sso.js`
-
-```js
-// Vercel serverless function. Verifies an ID token minted by the gateway and
-// returns a custom token for THIS origin. The ID token proves who they are;
-// the custom token is what signInWithCustomToken() will accept.
-import admin from 'firebase-admin';
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(
-      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-    )
-  });
-}
-
-// Only origins you actually run. An open list here would let any site mint
-// sessions for your users.
-const ALLOWED = [
-  'https://clearskyomega.com',
-  'https://www.clearskyomega.com',
-  'https://clearsky-portal-h7d9.vercel.app'
-];
-
-export default async function handler(req, res) {
-  const origin = req.headers.origin || '';
-  if (ALLOWED.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  }
-  if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
-
-  try {
-    const { idToken } = req.body || {};
-    if (!idToken) return res.status(400).json({ error: 'idToken required' });
-
-    // checkRevoked: a disabled or signed-out account can't ride an old token in.
-    const decoded = await admin.auth().verifyIdToken(idToken, true);
-
-    // Issued in the last 5 minutes. A token copied out of a URL and used an
-    // hour later is not a live handoff.
-    if (Date.now() / 1000 - decoded.auth_time > 300) {
-      return res.status(401).json({ error: 'stale' });
-    }
-
-    const customToken = await admin.auth().createCustomToken(decoded.uid, {
-      via: 'omega-gateway'
-    });
-    return res.status(200).json({ customToken });
-  } catch (err) {
-    console.error('[omega-sso]', err);
-    return res.status(401).json({ error: 'invalid' });
-  }
-}
-```
-
-Set `FIREBASE_SERVICE_ACCOUNT` in Vercel to the whole service-account JSON, on
-one line. Project settings → Service accounts → Generate new private key.
-It is a secret: never put it in the repo, never expose it to the browser.
-
-### 2. Consume it, before the portal draws its login
-
-Run this **before** anything that decides whether to show a login screen —
-first thing in the portal's auth bootstrap.
+Check it answers:
 
 ```js
-// Trade ?#omega_sso=... for a real session on this origin.
-export async function acceptOmegaHandoff(auth) {
-  const params = new URLSearchParams(location.hash.slice(1));
-  const idToken = params.get('omega_sso');
-  if (!idToken) return false;
-
-  // Strip it from the URL immediately — no token in history, no token in a
-  // screenshot, no token in the next page's Referer.
-  history.replaceState(null, '', location.pathname + location.search);
-
-  try {
-    const r = await fetch('/api/omega-sso', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken })
-    });
-    if (!r.ok) return false;
-    const { customToken } = await r.json();
-    await signInWithCustomToken(auth, customToken);
-    return true;
-  } catch (_) {
-    return false;   // fall through to the normal login form
-  }
-}
+fetch('https://clearskyomega.com/api/omega-sso', {method:'POST'})
+  .then(r => r.json()).then(console.log)
+// expect: { error: "idToken_required" }  ← the function is alive
 ```
 
-Then flip `HANDOFF` to `'token'` in `login.html`.
+A 404 means the function didn't deploy. A 500 means the service account
+variable is missing or malformed.
 
-Every failure path here falls through to the portal's own login form, so a bad
-deploy of this costs a second sign-in — not a lockout.
+### 3. One script tag per tenant app
 
----
+In the `<head>` of each app the gateway sends people to — the ClearSky portal,
+OGI Solar, the ops console, financing — add this as the **first** script:
 
-## What the portal receives either way
+```html
+<script type="module" src="https://clearskyomega.com/omega-sso.js"></script>
+```
 
-- `?tenant=` — the resolved org, already alias-folded (`fenecon.de` →
-  `fenecon.com`), so the portal can open the right workspace without
-  re-deriving it.
-- `?via=omega-gateway` — useful for telling gateway traffic apart in logs.
-- `?email=` — on `prefill` only.
-- `#omega_sso=` — on `token` only.
+That's the whole integration. It ignores normal visits entirely and only acts
+when it sees `#omega_sso=` in the URL: it pulls the token out of the address
+bar, exchanges it, signs in, and reloads clean so your app boots with a live
+user.
 
-## Keeping the two in step
+It does **not** need to know how your app is built. Firebase stores the session
+under a key derived from the API key and app name, so your app's own
+`getAuth()` picks it up on that next load — even if it bundles a different copy
+of the SDK.
 
-`login.html` mirrors `firestore.rules` on purpose, so nothing is promised that
-the database will refuse. Three places drift if you only change one side:
+**Add each app's origin to `ALLOWED` in `api/omega-sso.js`.** A request from an
+origin that isn't listed is refused. The current list covers clearskyomega.com,
+the portal, ogisolar.com, alpha, tools and financing — add the rest.
 
-- `ORG_ALIAS` in `login.html` ↔ `orgAlias()` in the rules.
-- `ADMIN_DOMAINS` ↔ `isAdmin()`.
-- The role reads (`omega_staff`, `org_members`, `fin_profiles`,
-  `mkt_profiles`, `vdc_profiles`) ↔ the collections those rules gate.
+## Failure behaviour
 
-Drift here is not a security hole — the rules are still the thing that
-enforces — but it does route someone to a workspace that then looks empty.
+Every failure path falls through to the app's normal login screen. A bad
+deploy, an expired token, a blocked network — the cost is the sign-in the user
+would have had anyway. Nobody gets locked out.
+
+There is also a one-shot guard in `sessionStorage` so a token that exchanges
+but somehow doesn't satisfy the app can't cause a reload loop.
+
+## Where each tenant lands
+
+The destination comes from Firestore, not from code. After sign-in the gateway
+reads `omega_orgs/{orgId}` and uses the first of `portalUrl`, `url`, `appUrl`,
+`site` that it finds:
+
+```
+omega_orgs/ogisolar.com  →  { portalUrl: "https://ogisolar.com", name: "OGI Solar" }
+```
+
+`name` is what the loading screen says. Adding a tenant is a Firestore edit —
+no redeploy. `TENANT_PORTALS` in `login.html` is only a fallback for orgs with
+no document yet.
+
+## Worth settling while you're in here
+
+`isConsoleViewer()` in the rules grants `ogisolar.com` and `sunesol.com` a
+**cross-org read of every tenant's `/projects`** — FENECON's, Concord's and
+iQGen's included. Your own rules file flags this above the function. Seamless
+sign-in makes that easier to reach, not more contained, so it is worth a
+decision before OGI Solar's trial opens.
