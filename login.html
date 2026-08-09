@@ -593,7 +593,18 @@
       if (c.indexOf("network-request-failed") > -1) return "Can't reach OMEGA. Check your connection and try again.";
       if (c.indexOf("popup-closed") > -1 || c.indexOf("cancelled-popup") > -1) return "";
       if (c.indexOf("popup-blocked") > -1)          return "Your browser blocked the Google window. Allow pop-ups, or use your email and password.";
-      return "Something went wrong signing in. Try again, or email info@csebuilders.com.";
+      /* Setup problems rather than user mistakes. These three all mean the
+         Firebase project hasn't been told about this site yet — worth naming
+         precisely, because the fix is in the console and not on this page. */
+      if (c.indexOf("unauthorized-domain") > -1)
+        return "This site isn't authorised for OMEGA sign-in yet. Add clearskyomega.com under Firebase → Authentication → Settings → Authorised domains.";
+      if (c.indexOf("operation-not-allowed") > -1)
+        return "Email and password sign-in isn't switched on for this project. Enable it under Firebase → Authentication → Sign-in method.";
+      if (c.indexOf("api-key") > -1 || c.indexOf("app-not-authorized") > -1)
+        return "This site isn't allowed to use the OMEGA API key. Check the key's HTTP referrer restrictions in Google Cloud.";
+      /* Anything unmapped: show the code. A support email that says
+         "auth/xyz" is worth ten that say "it didn't work". */
+      return "Couldn't sign in" + (c ? " (" + c + ")" : "") + ". Try again, or email info@csebuilders.com.";
     }
 
     /* ---- Wiring ----------------------------------------------------------- */
@@ -611,6 +622,7 @@
       } catch (err) {
         loading(false);
         ui.submit.disabled = false;
+        console.error("[omega-gateway] sign-in failed", err && err.code, err);
         say(friendly(err), "error");
       }
     });
