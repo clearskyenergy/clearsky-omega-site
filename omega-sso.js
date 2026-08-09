@@ -1,90 +1,99 @@
 /* ============================================================================
-   OMEGA SSO — the tenant side. ONE SCRIPT TAG, nothing else to change.
+   OMEGA SSO — token exchange
+   POST /api/omega-sso   { idToken }  →  { customToken }
 
-   Add this as the FIRST script in the <head> of any app the gateway hands
-   off to — the ClearSky portal, OGI Solar, the ops console, financing:
+   Why this exists: a Firebase session belongs to the ORIGIN that created it.
+   Signing in at clearskyomega.com is not a session at ogisolar.com, even
+   though both are the same Firebase project. The browser cannot bridge that
+   on its own, and passing the password through would put a credential in the
+   URL bar, browser history and the next page's Referer header.
 
-       <script type="module" src="https://clearskyomega.com/omega-sso.js"></script>
+   So the gateway hands over a short-lived ID TOKEN instead. This endpoint
+   verifies it with the Admin SDK — which is the only thing that can prove a
+   token is genuine — and returns a CUSTOM TOKEN, which is the only thing
+   signInWithCustomToken() will accept. Nothing secret ever rides in the URL,
+   and the token is useless more than five minutes after the sign-in.
 
-   What it does, and only when it sees #omega_sso= in the URL:
+   SETUP (once):
+     1. Firebase Console → Project settings → Service accounts →
+        Generate new private key. You get a JSON file.
+     2. Vercel → this project → Settings → Environment Variables →
+        add FIREBASE_SERVICE_ACCOUNT, value = that entire JSON on one line.
+        It is a SECRET: never commit it, never expose it to the browser.
+     3. Add every origin that may hand off, below, in ALLOWED.
+     4. Redeploy.
 
-     1. Takes the token out of the address bar immediately, so it never
-        lands in history, a screenshot, or the next page's Referer.
-     2. Trades it at /api/omega-sso for a Firebase custom token.
-     3. Signs in with that token, which writes the session into this
-        origin's IndexedDB.
-     4. Reloads the page, clean. Your app then boots with a signed-in user
-        and shows the dashboard instead of a login form.
-
-   The reload is deliberate. Firebase keeps its session under a key built
-   from the API key and the app name, so a session created here is visible
-   to your app's own getAuth() on the next load — even if your app bundles a
-   different copy or version of the SDK. No shared imports, no coupling to
-   how your app is built.
-
-   On ANY failure it does nothing at all and your normal login screen
-   appears. The worst case is the sign-in the user would have had anyway.
+   The service account can act as any user in the project. Treat it like a
+   root password: environment variable only.
    ========================================================================= */
 
-(async function () {
-  const HASH_KEY  = 'omega_sso';
-  const EXCHANGE  = 'https://clearskyomega.com/api/omega-sso';
+import admin from 'firebase-admin';
 
-  /* Same project as the gateway. Public web config — safe in the browser;
-     your Firestore rules are what enforce access. */
-  const FIREBASE_CONFIG = {
-    apiKey:            "AIzaSyABoM1lgOYUnd5ZadaoTMhYmA9cHa8Tyo0",
-    authDomain:        "clearsky-portal.firebaseapp.com",
-    projectId:         "clearsky-portal",
-    storageBucket:     "clearsky-portal.firebasestorage.app",
-    messagingSenderId: "742134484347",
-    appId:             "1:742134484347:web:ab0f95fd221536158481de"
-  };
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+    )
+  });
+}
 
-  const params  = new URLSearchParams(location.hash.slice(1));
-  const idToken = params.get(HASH_KEY);
-  if (!idToken) return;                 // Normal visit. Do nothing.
+/* Only origins you actually run. An open list here would let any website on
+   the internet mint sessions for your users, which is the whole ballgame. */
+const ALLOWED = [
+  'https://clearskyomega.com',
+  'https://www.clearskyomega.com',
+  'https://clearsky-portal-h7d9.vercel.app',
+  'https://ogisolar.com',
+  'https://www.ogisolar.com',
+  'https://alpha.clearskyomega.com',
+  'https://tools.csebuilders.com',
+  'https://financing.csebuilders.com',
+  'https://nextnrg.csebuilders.com'
+];
 
-  /* Out of the URL before anything else can read it. */
-  history.replaceState(null, '', location.pathname + location.search);
-
-  /* A guard against a reload loop: if the exchange succeeds but the app
-     still can't see a user, we must not try again forever. */
-  const GUARD = 'omega_sso_attempt';
-  try {
-    if (sessionStorage.getItem(GUARD)) { sessionStorage.removeItem(GUARD); return; }
-    sessionStorage.setItem(GUARD, '1');
-  } catch (_) { /* private mode — carry on without the guard */ }
-
-  try {
-    const r = await fetch(EXCHANGE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken })
-    });
-    if (!r.ok) throw new Error('exchange failed: ' + r.status);
-    const { customToken } = await r.json();
-    if (!customToken) throw new Error('no token returned');
-
-    const V = 'https://www.gstatic.com/firebasejs/10.12.5/';
-    const [{ initializeApp, getApps, getApp }, auth] = await Promise.all([
-      import(V + 'firebase-app.js'),
-      import(V + 'firebase-auth.js')
-    ]);
-
-    /* Reuse the page's default app if it already made one with these
-       options; otherwise create it. Either way the session lands under the
-       same persistence key your app reads. */
-    const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
-    const A = auth.getAuth(app);
-    await auth.setPersistence(A, auth.browserLocalPersistence).catch(() => {});
-    await auth.signInWithCustomToken(A, customToken);
-
-    try { sessionStorage.removeItem(GUARD); } catch (_) {}
-    location.replace(location.pathname + location.search);
-  } catch (err) {
-    /* Deliberately quiet for the user: they simply see the normal login. */
-    console.warn('[omega-sso] handoff did not complete:', err && err.message);
-    try { sessionStorage.removeItem(GUARD); } catch (_) {}
+export default async function handler(req, res) {
+  const origin = req.headers.origin || '';
+  if (ALLOWED.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   }
-})();
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+
+  /* A request from an origin we don't run is refused outright — not merely
+     left without CORS headers, which a non-browser client would ignore. */
+  if (origin && !ALLOWED.includes(origin)) {
+    return res.status(403).json({ error: 'origin_not_allowed' });
+  }
+
+  try {
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+    const idToken = body.idToken;
+    if (!idToken) return res.status(400).json({ error: 'idToken_required' });
+
+    /* checkRevoked: an account disabled or signed out since the token was
+       issued cannot ride an old one through. */
+    const decoded = await admin.auth().verifyIdToken(idToken, true);
+
+    /* The sign-in itself must be recent. A token copied out of a URL and
+       replayed an hour later is not a live handoff. auth_time is when the
+       user actually authenticated, not when the token was minted. */
+    if (Math.floor(Date.now() / 1000) - decoded.auth_time > 300) {
+      return res.status(401).json({ error: 'stale_signin' });
+    }
+
+    /* Belt and braces: the account must still exist and still be enabled. */
+    const user = await admin.auth().getUser(decoded.uid);
+    if (user.disabled) return res.status(403).json({ error: 'user_disabled' });
+
+    const customToken = await admin.auth().createCustomToken(decoded.uid, {
+      via: 'omega-gateway'
+    });
+    return res.status(200).json({ customToken });
+  } catch (err) {
+    console.error('[omega-sso]', err && err.code, err && err.message);
+    return res.status(401).json({ error: 'invalid_token' });
+  }
+}

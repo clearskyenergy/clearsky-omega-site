@@ -259,10 +259,17 @@
   const PORTAL = "https://clearsky-portal-h7d9.vercel.app";
   const ORG_URL_FIELDS = ["portalUrl", "url", "appUrl", "site"];
 
+  const OPS = "https://alpha.clearskyomega.com";
+
   const TENANT_PORTALS = {
-    /* Taken from your own screenshot — OGI Solar runs its own app. Correct
-       or remove any of these; a value in Firestore always wins over this. */
-    "ogisolar.com": "https://ogisolar.com/auth/login"
+    "ogisolar.com":    "https://ogisolar.com/auth/login",
+    "nextnrg.com":     "https://nextnrg.csebuilders.com",
+    /* ClearSky's own people work the ops console, not the tenant portal.
+       csebuilders.com is folded here too — same company, same console — so
+       staff never get a pointless "which one?" screen. Remove that line if
+       csebuilders addresses should land somewhere else. */
+    "clearsky-usa.com": OPS,
+    "csebuilders.com":  OPS
     // "fenecon.com":          "https://...",
     // "concordenergyusa.com": "https://...",
     // "sunesol.com":          "https://..."
@@ -273,8 +280,8 @@
      404 — specialising one is a single line here. */
   const ROUTES = {
     workspace:   PORTAL,
-    admin:       PORTAL,
-    ops:         PORTAL,
+    admin:       OPS,     // ClearSky admins → ops console
+    ops:         OPS,     // assigned reps   → ops console
     financing:   PORTAL,
     marketplace: PORTAL,
     vdc:         PORTAL
@@ -313,7 +320,8 @@
     "molecule.io":          "Molecule Systems",
     "lightsmithenergy.com": "Lightsmith Energy",
     "lightsmith.energy":    "Lightsmith Energy",
-    "iqgen.energy":         "IQGen"
+    "iqgen.energy":         "IQGen",
+    "nextnrg.com":          "NextNRG"
   };
   const ADMIN_DOMAINS = ["clearsky-usa.com", "csebuilders.com"];
 
