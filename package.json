@@ -1,10 +1,13 @@
 {
-  "name": "clearsky-omega-site",
-  "private": true,
-  "version": "1.0.0",
-  "description": "ClearSky OMEGA marketing site. Static HTML plus one serverless function (api/omega-sso.js) that exchanges a gateway ID token for a Firebase custom token.",
-  "type": "module",
+  "name": "omega-sso-functions",
+  "description": "OMEGA SSO token exchange. Runs inside the clearsky-portal Firebase project, so it needs no service-account key.",
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
   "dependencies": {
-    "firebase-admin": "^12.7.0"
-  }
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.0"
+  },
+  "private": true
 }
