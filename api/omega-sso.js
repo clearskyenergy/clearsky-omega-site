@@ -48,7 +48,9 @@ const ALLOWED = [
   'https://alpha.clearskyomega.com',
   'https://tools.csebuilders.com',
   'https://financing.csebuilders.com',
-  'https://nextnrg.csebuilders.com'
+  'https://nextnrg.csebuilders.com',
+  'https://sunesol.clearskyomega.com',
+  'https://fenecon.clearskyomega.com'
 ];
 
 export default async function handler(req, res) {
