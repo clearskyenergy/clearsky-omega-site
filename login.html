@@ -286,6 +286,21 @@
        csebuilders addresses should land somewhere else. */
     "clearsky-usa.com": OPS,
     "csebuilders.com":  OPS,
+
+    /* --- Added tenants -------------------------------------------------
+       These three are listed explicitly rather than left to the pattern so
+       there is ONE obvious place to correct a host. As written they resolve
+       to exactly what TENANT_PATTERN would have produced anyway, so if the
+       subdomains exist these lines are a no-op and can be deleted.
+
+       If a portal actually lives somewhere else — a Vercel URL, a customer
+       domain, a shortened slug like walters.clearskyomega.com — change the
+       URL here AND add that origin to ALLOWED in index.js (see below), or
+       the SSO handoff is refused and the user silently gets a login form. */
+    "walterswholesale.com": "https://walterswholesale.clearskyomega.com",
+    "cleantechir.com":      "https://cleantechir.clearskyomega.com",
+    "joulesai.com":         "https://joulesai.clearskyomega.com",
+
     /* sunesol.com, fenecon.com and ogisolar.com are NOT listed: the pattern
        already produces sunesol/fenecon/ogisolar.clearskyomega.com. One entry
        would cover fenecon.de and .us too, since orgAlias() folds them onto
@@ -338,7 +353,10 @@
     "lightsmithenergy.com": "Lightsmith Energy",
     "lightsmith.energy":    "Lightsmith Energy",
     "iqgen.energy":         "IQGen",
-    "nextnrg.com":          "NextNRG"
+    "nextnrg.com":          "NextNRG",
+    "walterswholesale.com": "Walters Wholesale Electric",
+    "cleantechir.com":      "CleanTech IR",
+    "joulesai.com":         "Joules AI"
   };
   const ADMIN_DOMAINS = ["clearsky-usa.com", "csebuilders.com"];
 
