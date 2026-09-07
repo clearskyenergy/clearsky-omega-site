@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/omega.css">
+  <link rel="stylesheet" href="/omega-reel.css">
 </head>
 <body>
 <div id="top"></div>
@@ -77,11 +78,11 @@
         </div>
       </div>
       <div class="hero-visual">
-        <button class="hero-frame" onclick="openVideo()" aria-label="Play the ClearSky OMEGA showcase film">
+        <button class="hero-frame" onclick="openVideo(4)" aria-label="Play the ClearSky OMEGA showcase film">
           <img src="/neon-hero.jpg" alt="ClearSky OMEGA showcase">
           <span class="hero-play" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
         </button>
-        <span class="hero-caption"><span class="dot"></span>Enterprise overview · coming soon</span>
+        <span class="hero-caption"><span class="dot"></span>Watch the showcase · opens on the sales channel</span>
       </div>
     </div>
   </section>
@@ -168,8 +169,8 @@
     <div class="video-stage" id="videoStage">
       <img src="/neon-hero.jpg" alt="">
       <div class="video-placeholder">
-        <span class="vp-badge">Showcase film · coming soon</span>
-        <p>Our film is in production. Drop the final cut in as <code>omega-showcase.mp4</code> and it plays here full-screen.</p>
+        <span class="vp-badge">Showcase film</span>
+        <p>Enable JavaScript to play the ClearSky OMEGA showcase.</p>
       </div>
     </div>
   </div>
@@ -209,5 +210,6 @@
     </div>
   </footer>
   <script src="/omega.js"></script>
+  <script src="/omega-reel.js"></script>
 </body>
 </html>

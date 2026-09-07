@@ -355,10 +355,24 @@
      hidden dialog is battery someone else paid for. */
   function wire() {
     var openFn = window.openVideo, closeFn = window.closeVideo;
-    window.openVideo = function () {
-      if (typeof openFn === 'function') { openFn.apply(this, arguments); }
+    /* openVideo(chapter) — every page on the site has a hero frame that
+       opens this modal, and each one was captioned with a different film
+       "coming soon". There is one film; what differs is where a given page
+       should drop you into it. A page passes its own act index and the reel
+       opens there, so the marketplace page opens on the OEM act and the
+       AHJ page on the engineering one, rather than all seven pages
+       promising seven films nobody is going to shoot.
+
+       Out-of-range or absent falls back to the top, because a bad index on
+       a marketing page should cost the viewer the deep link, not the film. */
+    window.openVideo = function (chapter) {
+      if (typeof openFn === 'function') { openFn.call(this); }
       mount();
-      if (reel && !reel.getAttribute('data-static')) { seek(0); play(); }
+      if (reel && !reel.getAttribute('data-static')) {
+        var n = (typeof chapter === 'number' && chapter >= 0 && chapter < ACTS.length)
+          ? chapter : 0;
+        seek(n); play();
+      }
     };
     window.closeVideo = function () {
       pause();
