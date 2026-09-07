@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClearSky OMEGA — The Drawing Set That Runs the Project</title>
+<meta name="description" content="Development, permitting, procurement, capital and Virtual Power Plant dispatch — one living project record, from raw parcel to operating asset.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/omega-sheet.css">
+<link rel="stylesheet" href="/omega-reel.css">
+</head>
+<body class="sheet">
+
+<header class="hd">
+  <div class="wrap hd-in">
+    <a class="brand" href="/index-sheet.html"><span class="dot"></span>ClearSky&nbsp;<em>OMEGA</em></a>
+    <nav>
+      <a href="/platform.html">Platform</a>
+      <a href="/data.html">Data &amp; AI</a>
+      <a href="/marketplace.html">Marketplace</a>
+      <a href="/energy.html">Energy projects</a>
+      <a href="/enterprise.html">Enterprise</a>
+    </nav>
+    <div class="hd-r">
+      <a class="lg" href="https://silmarillion.clearskyomega.com/login">Log in</a>
+      <a class="btn btn-r" href="/contact.html">Request a demo</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ── HERO ─────────────────────────────────────────────────────────
+       The claim and the proof sit side by side: the sentence says the
+       drawing set is live, and the drawing next to it carries a title
+       block with a revision that reads LIVE. -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="rev"><i></i>Rev. LIVE — this drawing updates itself</span>
+        <h1>The drawing set that runs the project.</h1>
+        <p class="lede">Development, permitting, procurement, capital and Virtual Power Plant dispatch — one living project record, from raw parcel to operating asset. Not an app. A learning energy ecosystem.</p>
+        <div class="hero-cta">
+          <button class="btn btn-r" onclick="openVideo(0)">See OMEGA on a real site</button>
+          <a class="btn btn-o" href="#index">Open the sheet index</a>
+        </div>
+        <div class="stats">
+          <div><b>10 yrs</b><span>of performance history training the platform</span></div>
+          <div><b>8,760</b><span>hours modelled on every dispatch</span></div>
+          <div><b>1 record</b><span>shared by all four businesses</span></div>
+        </div>
+      </div>
+
+      <!-- The one-line, drawn rather than photographed. It is the product's
+           own output and the only honest hero image this page could have. -->
+      <div class="panel dwg">
+        <div class="dwg-body">
+          <svg viewBox="0 0 520 300" role="img" aria-label="Single-line diagram: PV array and battery through an inverter and meter to the grid, with a compute campus load.">
+            <g class="mono" fill="#8A94A0" font-family="IBM Plex Mono, monospace" font-size="7.5" letter-spacing="1">
+              <text x="260" y="16" text-anchor="middle">SITE BOUNDARY — 41.2 AC</text>
+            </g>
+            <rect x="14" y="24" width="492" height="258" fill="none" stroke="#2B5FA8" stroke-width="1" stroke-dasharray="6 5" opacity=".45"/>
+
+            <!-- PV array -->
+            <g stroke="#14171A" stroke-width="1.2" fill="none">
+              <rect x="40" y="58" width="76" height="46"/>
+              <line x1="40" y1="73" x2="116" y2="73"/><line x1="40" y1="88" x2="116" y2="88"/>
+              <line x1="65" y1="58" x2="65" y2="104"/><line x1="91" y1="58" x2="91" y2="104"/>
+            </g>
+            <text x="40" y="119" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">PV ARRAY</text>
+            <text x="40" y="130" font-size="7.5" fill="#8A94A0" font-family="IBM Plex Mono, monospace">4.4 MWdc</text>
+
+            <!-- BESS -->
+            <g stroke="#14171A" stroke-width="1.2" fill="none">
+              <rect x="40" y="176" width="76" height="46"/>
+              <rect x="50" y="188" width="12" height="22" fill="#2B5FA8" opacity=".5" stroke="none"/>
+              <rect x="66" y="188" width="12" height="22" fill="#2B5FA8" opacity=".5" stroke="none"/>
+              <rect x="82" y="188" width="12" height="22" fill="#2B5FA8" opacity=".5" stroke="none"/>
+            </g>
+            <text x="40" y="237" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">BESS</text>
+            <text x="40" y="248" font-size="7.5" fill="#8A94A0" font-family="IBM Plex Mono, monospace">2.0 MW · 8 MWh</text>
+
+            <!-- bus into the inverter -->
+            <g stroke="#14171A" stroke-width="1.2" fill="none">
+              <path d="M116 81 H176 V132"/>
+              <path d="M116 199 H176 V168"/>
+              <rect x="176" y="126" width="56" height="48"/>
+              <path d="M180 168 L228 132" stroke-width="1"/>
+              <path d="M180 148 q7 -8 14 0 t14 0" stroke-width="1"/>
+            </g>
+            <text x="176" y="189" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">INVERTER / PCS</text>
+
+            <!-- meter -->
+            <g stroke="#14171A" stroke-width="1.2" fill="none">
+              <path d="M232 150 H286"/>
+              <circle cx="302" cy="150" r="16"/>
+              <path d="M302 150 L310 142" stroke-width="1"/>
+              <path d="M318 150 H372"/>
+            </g>
+            <text x="286" y="180" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">METER</text>
+
+            <!-- split to grid and compute -->
+            <g stroke="#14171A" stroke-width="1.2" fill="none">
+              <path d="M372 150 V84 H400"/>
+              <path d="M372 150 V216 H400"/>
+              <rect x="400" y="60" width="66" height="48"/>
+              <path d="M420 96 L433 72 L446 96 Z" stroke-width="1.1"/>
+              <rect x="400" y="192" width="66" height="48"/>
+              <line x1="400" y1="208" x2="466" y2="208"/><line x1="400" y1="224" x2="466" y2="224"/>
+            </g>
+            <text x="400" y="123" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">GRID</text>
+            <text x="400" y="255" font-size="8.5" font-weight="600" fill="#14171A" font-family="Inter, sans-serif">COMPUTE</text>
+            <text x="400" y="266" font-size="7.5" fill="#8A94A0" font-family="IBM Plex Mono, monospace">1.2 MW critical</text>
+          </svg>
+        </div>
+        <div class="tblock">
+          <div><span class="tblabel">Project</span><b>Illustrative record</b></div>
+          <div><span class="tblabel">Sheet</span><b>E-101 One-line</b></div>
+          <div><span class="tblabel">Dispatching</span><b>3.4 MW</b></div>
+          <div><span class="tblabel">Revision</span><b class="live">LIVE</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── THE FOUR VERTICALS ───────────────────────────────────────── -->
+  <div class="wrap"><div class="divider"><span>Who OMEGA is for</span></div></div>
+
+  <section class="wrap" id="verticals">
+    <span class="sheetno">SHEET G-002</span>
+    <h2>Four businesses, one project record</h2>
+    <p class="lede" style="margin-top:14px">Everyone who touches an energy project is working from a different file. OMEGA is the one they can all open — and each of them gets the part of it that does their job.</p>
+
+    <div class="vt" style="margin-top:30px">
+      <div class="vt-tabs" role="tablist" aria-label="Who OMEGA is for">
+        <button class="vt-tab" role="tab" aria-selected="true"  aria-controls="vp-dev"  id="vt-dev"  onclick="vtPick('dev')"><strong>Developers &amp; capital</strong><span>Screen, model, finance</span></button>
+        <button class="vt-tab" role="tab" aria-selected="false" aria-controls="vp-oem"  id="vt-oem"  onclick="vtPick('oem')"><strong>OEM &amp; technology</strong><span>Demand routed to you</span></button>
+        <button class="vt-tab" role="tab" aria-selected="false" aria-controls="vp-epc"  id="vt-epc"  onclick="vtPick('epc')"><strong>EPC &amp; engineering</strong><span>One model, all drawings</span></button>
+        <button class="vt-tab" role="tab" aria-selected="false" aria-controls="vp-inst" id="vt-inst" onclick="vtPick('inst')"><strong>Installers &amp; sales</strong><span>Quote on site</span></button>
+      </div>
+
+      <div class="vt-panel on" id="vp-dev" role="tabpanel" aria-labelledby="vt-dev">
+        <div>
+          <h3>Know the ceiling before you buy the dirt.</h3>
+          <p>Interconnection headroom read against the real feeder, an hour-by-hour dispatch across all 8,760, and a pro forma that reconciles to it rather than to a peak-shaving estimate. Then apply for financing without rebuilding a single number.</p>
+          <a class="btn btn-b" href="/platform.html">Explore the platform</a>
+        </div>
+        <div class="rec">
+          <div class="rec-h"><b>Maple Ridge BESS</b><span>PROJECT RECORD</span></div>
+          <div class="rec-r"><i>Feeder headroom</i><b>4.2 MW available</b></div>
+          <div class="rec-r"><i>8,760 dispatch</i><b>612 cycles modelled</b></div>
+          <div class="rec-r"><i>Pro forma</i><b class="ok">Reconciled to dispatch</b></div>
+          <div class="rec-r"><i>Financing package</i><b class="go">Ready to submit</b></div>
+        </div>
+      </div>
+
+      <div class="vt-panel" id="vp-oem" role="tabpanel" aria-labelledby="vt-oem">
+        <div>
+          <h3>Your product, specified before the RFQ exists.</h3>
+          <p>When a developer places your SKU in a design, the bill of materials writes itself and the opportunity reaches you sized, sited and already engineered around your equipment. You quote your own lines — and the buyer stays anonymous until they accept.</p>
+          <a class="btn btn-b" href="/marketplace.html">See how demand routes</a>
+        </div>
+        <div class="rec">
+          <div class="rec-h"><b>Opportunity 4471</b><span>VENDOR VIEW</span></div>
+          <div class="rec-r"><i>Your lines</i><b>3 of 11 in the BOM</b></div>
+          <div class="rec-r"><i>Sized against</i><b>4.2 MW feeder limit</b></div>
+          <div class="rec-r"><i>Buyer identity</i><b class="ok">Held until accepted</b></div>
+          <div class="rec-r"><i>Quote window</i><b class="go">Open</b></div>
+        </div>
+      </div>
+
+      <div class="vt-panel" id="vp-epc" role="tabpanel" aria-labelledby="vt-epc">
+        <div>
+          <h3>Drawings and quantities off one model.</h3>
+          <p>The one-line, the plot plan and the take-off all read the same project, so moving a compartment re-routes the trench, re-counts the schedule and carries through to the estimate. Separations are checked live against NFPA 855 and IFC 1207 as you draw.</p>
+          <a class="btn btn-b" href="/platform.html">See the drawing set</a>
+        </div>
+        <div class="rec">
+          <div class="rec-h"><b>Sheet set E-101 → C-400</b><span>ISSUE STATUS</span></div>
+          <div class="rec-r"><i>Trench</i><b>4,120 ft measured</b></div>
+          <div class="rec-r"><i>Separations</i><b class="ok">NFPA 855 · IFC 1207 clear</b></div>
+          <div class="rec-r"><i>Take-off</i><b>AACE Class 4</b></div>
+          <div class="rec-r"><i>Drawings</i><b class="go">Re-issued on change</b></div>
+        </div>
+      </div>
+
+      <div class="vt-panel" id="vp-inst" role="tabpanel" aria-labelledby="vt-inst">
+        <div>
+          <h3>Size it and quote it on site.</h3>
+          <p>Pull the interval data, size the system and hand over a proposal in your own branding before you leave the parking lot. It runs in whatever browser you have with you — nothing to install, nothing to sync when you get back to the office.</p>
+          <a class="btn btn-b" href="/enterprise.html">See white-label</a>
+        </div>
+        <div class="rec">
+          <div class="rec-h"><b>Site visit — 6 min</b><span>FIELD SESSION</span></div>
+          <div class="rec-r"><i>Interval data</i><b>Imported</b></div>
+          <div class="rec-r"><i>Recommended</i><b>2 × 215 kWh</b></div>
+          <div class="rec-r"><i>Demand saving</i><b class="ok">$41,800 / yr</b></div>
+          <div class="rec-r"><i>Proposal</i><b class="go">Sent, your branding</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SHEET INDEX ──────────────────────────────────────────────── -->
+  <div class="wrap"><div class="divider"><span>Sheet index</span></div></div>
+
+  <section class="wrap" id="index">
+    <span class="sheetno">SHEET G-001</span>
+    <h2>One platform, six ways it goes to work</h2>
+    <p class="lede" style="margin-top:14px">Every capability shares the same data, the same project context and the same intelligence — so work done in one place makes every other part smarter.</p>
+
+    <div class="idx" style="margin-top:30px">
+      <a href="/platform.html"><span class="no">A-101</span><span class="nm">Development platform</span><span class="ds">Raw parcel to permit-ready — site maps, one-lines, interconnection packages, AHJ-ready exports.</span><span class="op">Open sheet →</span></a>
+      <a href="/data.html"><span class="no">D-201</span><span class="nm">Data &amp; AI optimization</span><span class="ds">Ten years of performance history, value-stack modelling and site ranking behind every decision.</span><span class="op">Open sheet →</span></a>
+      <a href="/marketplace.html"><span class="no">M-301</span><span class="nm">Marketplace &amp; VPP</span><span class="ds">Source equipment, aggregate demand, place compute capacity, optimize VPP revenue fleet-wide.</span><span class="op">Open sheet →</span></a>
+      <a href="/energy.html"><span class="no">P-401</span><span class="nm">Energy projects</span><span class="ds">An active portfolio of BESS, EV charging, microgrids and micro data centres across Illinois and PJM.</span><span class="op">Open sheet →</span></a>
+      <a href="/enterprise.html"><span class="no">W-501</span><span class="nm">Enterprise white-label</span><span class="ds">Run the whole ecosystem under your own brand — internalize engineering, cut outsourced cost.</span><span class="op">Open sheet →</span></a>
+      <a href="/ahj.html"><span class="no">J-601</span><span class="nm">AHJ Approval Portal</span><span class="ds">A permitting coalition workspace where municipalities review and approve storage permits in one place.</span><span class="op">Open sheet →</span></a>
+    </div>
+  </section>
+
+  <!-- ── METRIC BAND ──────────────────────────────────────────────── -->
+  <section class="band">
+    <div class="wrap band-in">
+      <div><b>10 <em>yrs</em></b><span>of partner performance history training the platform</span></div>
+      <div><b>Real-time</b><span>optimization across dispatch, pricing and the value stack</span></div>
+      <div><b>1 platform</b><span>from site lead to operating asset</span></div>
+      <div><b>AI-driven</b><span>a living ecosystem that learns with every project</span></div>
+    </div>
+  </section>
+
+  <!-- ── CLOSE ────────────────────────────────────────────────────── -->
+  <div class="wrap">
+    <div class="panel close">
+      <span class="stamp">PERMIT READY</span>
+      <h2>See a living drawing set on a real site.</h2>
+      <p>Book a walkthrough and we'll show you OMEGA running from parcel to permit to operating asset — and the moment the one-line starts dispatching for real.</p>
+      <div class="acts">
+        <a class="btn btn-r" href="/contact.html">Request a demo</a>
+        <a class="btn btn-o" href="/platform.html">Explore the platform</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-in">
+      <div>
+        <a class="brand" href="/index-sheet.html"><span class="dot"></span>ClearSky&nbsp;<em>OMEGA</em></a>
+        <p>The AI operating platform for energy infrastructure — development, permitting, the virtual data center marketplace, procurement, capital and VPP optimization in one place.</p>
+      </div>
+      <div>
+        <h4>Platform</h4>
+        <a href="/platform.html">Development platform</a>
+        <a href="/data.html">Data &amp; AI</a>
+        <a href="/ahj.html">AHJ Approval Portal</a>
+        <a href="/marketplace.html">Marketplace</a>
+      </div>
+      <div>
+        <h4>Solutions</h4>
+        <a href="/enterprise.html">Enterprise white-label</a>
+        <a href="/energy.html">Energy projects</a>
+        <a href="/partners.html">Partners</a>
+        <a href="/contact.html">Contact sales</a>
+      </div>
+      <div>
+        <h4>Access</h4>
+        <a href="https://silmarillion.clearskyomega.com/login">Log in to OMEGA</a>
+        <a href="/contact.html">Request a demo</a>
+        <a href="mailto:info@csebuilders.com">info@csebuilders.com</a>
+      </div>
+    </div>
+    <div class="ft-bar">
+      <span>© 2026 ClearSky Builders LLC · ClearSky Energy Solutions LLC · Clinton, Iowa</span>
+      <a href="#" style="text-decoration:none;color:inherit">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- The showcase modal, same markup the rest of the site uses so
+     /omega-reel.js finds it and mounts the reel into it. -->
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="ClearSky OMEGA showcase">
+  <div class="video-topbar">
+    <div>
+      <h3>ClearSky OMEGA in action</h3>
+      <p class="vt-sub">The living energy platform — the data, the marketplace, and the projects it energizes.</p>
+    </div>
+    <div class="video-actions">
+      <button class="video-close" aria-label="Close" onclick="closeVideo()">✕</button>
+    </div>
+  </div>
+  <div class="video-stage" id="videoStage">
+    <div class="video-placeholder">
+      <span class="vp-badge">Showcase film</span>
+      <p>Enable JavaScript to play the ClearSky OMEGA showcase.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Tabs. Kept to plain attribute switching so the panels are real content
+   in the DOM at load — a tab whose copy only exists after a click is copy
+   a search engine never sees and a reader with no JS never gets. */
+function vtPick(k) {
+  var ids = ['dev','oem','epc','inst'], i, t, p;
+  for (i = 0; i < ids.length; i++) {
+    t = document.getElementById('vt-' + ids[i]);
+    p = document.getElementById('vp-' + ids[i]);
+    if (t) t.setAttribute('aria-selected', ids[i] === k ? 'true' : 'false');
+    if (p) p.classList.toggle('on', ids[i] === k);
+  }
+}
+/* Left/right arrows move between tabs, which is what a tablist owes a
+   keyboard user. */
+document.querySelector('.vt-tabs').addEventListener('keydown', function (e) {
+  var ids = ['dev','oem','epc','inst'];
+  var cur = ids.indexOf((document.querySelector('.vt-tab[aria-selected="true"]').id || '').replace('vt-',''));
+  var n = e.key === 'ArrowRight' ? cur + 1 : e.key === 'ArrowLeft' ? cur - 1 : -1;
+  if (n < 0 || cur < 0) return;
+  n = (n + ids.length) % ids.length;
+  e.preventDefault(); vtPick(ids[n]); document.getElementById('vt-' + ids[n]).focus();
+});
+/* The reel wraps these; defined first so it has something to wrap. */
+window.openVideo = function () {
+  var m = document.getElementById('videoModal');
+  if (!m) return;
+  m.style.display = 'flex'; document.body.style.overflow = 'hidden';
+  void m.offsetWidth; m.classList.add('open');
+};
+window.closeVideo = function () {
+  var m = document.getElementById('videoModal');
+  if (!m) return;
+  m.classList.remove('open'); document.body.style.overflow = '';
+  setTimeout(function () { m.style.display = 'none'; }, 300);
+};
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.closeVideo(); });
+</script>
+<script src="/omega-reel.js"></script>
+</body>
+</html>
