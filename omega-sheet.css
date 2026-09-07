@@ -286,3 +286,44 @@ body.sheet {
   letter-spacing: .14em; text-transform: uppercase; color: #6FA8E8;
   border: 1px solid rgba(111,168,232,.4); padding: 6px 14px; }
 .video-placeholder p { color: rgba(255,255,255,.8); font-size: 14.5px; max-width: 46ch; }
+
+/* ── components the inner pages need ──────────────────────────────────
+   A grid of cells that reads as a schedule rather than a row of floating
+   cards: one shared border, drawn by giving the container two edges and
+   every cell the other two, so it stays a clean table at any count. */
+.grid { display: grid; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.grid.c2 { grid-template-columns: repeat(2, 1fr); }
+.grid.c3 { grid-template-columns: repeat(3, 1fr); }
+.cell { padding: 24px 22px; background: var(--pa-2);
+        border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.cell h3 { font-size: 16.5px; margin-bottom: 9px; }
+.cell p  { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+.cell .no { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--blue);
+            display: block; margin-bottom: 9px; }
+
+/* A light schedule, for the hero panel on an inner page — the drawing's
+   voice without repeating the one-line, which belongs to the home page. */
+.sched { background: var(--pa-2); border: 1px solid var(--rule); box-shadow: var(--sh); }
+.sched-h { display: flex; justify-content: space-between; align-items: center; gap: 14px;
+           padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.sched-h b { font-size: 13px; font-weight: 700; }
+.sched-r { display: flex; justify-content: space-between; gap: 18px; padding: 11px 16px;
+           border-bottom: 1px solid var(--rule-soft); font-size: 13px; }
+.sched-r:last-of-type { border-bottom: 0; }
+.sched-r i { font-style: normal; color: var(--ink-2); }
+.sched-r b { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.sched-r b.hl { color: var(--red); }
+.sched-r b.ok { color: var(--green); }
+
+/* Prose inside a section, kept to a readable measure. */
+.prose { max-width: 62ch; }
+.prose p { color: var(--ink-2); margin-top: 14px; }
+.prose ul { margin: 16px 0 0 0; list-style: none; }
+.prose li { position: relative; padding-left: 20px; margin-bottom: 9px; color: var(--ink-2); font-size: 14px; }
+.prose li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 7px; height: 7px;
+                    border: 1.5px solid var(--blue); }
+
+.page-hero { padding: 54px 0 8px; }
+.page-hero .lede { margin-top: 18px; }
+.sec { margin-top: 66px; }
+.hd nav a.on { color: var(--ink); font-weight: 600; }

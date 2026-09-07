@@ -1,216 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon-180.png">
-  <meta name="description" content="Run the entire OMEGA ecosystem under your own brand and environment — internalize engineering, cut outsourced cost, and standardize output.">
-  <meta property="og:title" content="Enterprise White-Label · ClearSky OMEGA">
-  <meta property="og:description" content="Run the entire OMEGA ecosystem under your own brand and environment — internalize engineering, cut outsourced cost, and standardize output.">
-  <meta property="og:type" content="website">
-  <title>Enterprise White-Label · ClearSky OMEGA</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/omega.css">
-  <link rel="stylesheet" href="/omega-reel.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise White-Label · ClearSky OMEGA</title>
+<meta name="description" content="Run the whole ecosystem under your own brand, in your own environment.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/omega-sheet.css">
+<link rel="stylesheet" href="/omega-reel.css">
 </head>
-<body>
-<div id="top"></div>
-  <!-- ============ TOP BANNER (SAP-style: utility bar + main nav) ============ -->
-  <header class="omega-banner">
-    <div class="util-bar">
-      <a class="util-hide" href="/enterprise.html">For Enterprise</a>
-      <span class="util-sep util-hide"></span>
-      <a class="util-hide" href="/partners.html">Partners</a>
-      <span class="util-sep util-hide"></span>
-      <a href="#" onclick="return false;"><span class="util-flag"></span>United States</a>
-      <span class="util-sep"></span>
-      <a class="util-login" href="https://silmarillion.clearskyomega.com/login.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Log in to OMEGA
-      </a>
-    </div>
-    <nav class="main-nav">
-      <a href="/" class="brand" aria-label="ClearSky OMEGA — home">
-        <img src="/clearsky-logo-light.png" alt="ClearSky OMEGA">
-      </a>
-      <div class="nav-links" id="navLinks">
-        <div class="mega">
-          <a href="/platform.html" class="nav-link">Platform
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </a>
-          <div class="mega-panel">
-            <div class="mega-label">Develop &amp; permit</div>
-            <a class="mega-item" href="/platform.html"><div class="mi-t">Development platform</div><div class="mi-d">Site maps, one-lines, permit-ready exports</div></a>
-            <a class="mega-item" href="/ahj.html"><div class="mi-t">AHJ Approval Portal</div><div class="mi-d">Municipal permitting &amp; zoning review</div></a>
-            <div class="mega-label">Optimize &amp; source</div>
-            <a class="mega-item" href="/data.html"><div class="mi-t">Data &amp; optimization</div><div class="mi-d">Screening, ROI &amp; value-stack modeling</div></a>
-            <a class="mega-item" href="/marketplace.html"><div class="mi-t">Marketplace</div><div class="mi-d">Sourcing, procurement, capital &amp; VPP</div></a>
-          </div>
-        </div>
-        <a href="/data.html" class="nav-link">Data &amp; AI</a>
-        <a href="/marketplace.html" class="nav-link">Marketplace</a>
-        <a href="/energy.html" class="nav-link">Energy Projects</a>
-        <a href="/enterprise.html" class="nav-link active">Enterprise</a>
-        <a href="/contact.html" class="nav-link">Contact</a>
-      </div>
-      <button class="nav-toggle" aria-label="Menu" onclick="toggleNav()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <div class="nav-right">
-        <button class="nav-search" aria-label="Search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-        <a href="/contact.html" class="btn-demo">Request a demo</a>
-      </div>
+<body class="sheet">
+
+<header class="hd">
+  <div class="wrap hd-in">
+    <a class="brand" href="/"><span class="dot"></span>ClearSky&nbsp;<em>OMEGA</em></a>
+    <nav>
+      <a href="/platform.html">Platform</a>
+      <a href="/data.html">Data &amp; AI</a>
+      <a href="/marketplace.html">Marketplace</a>
+      <a href="/energy.html">Energy projects</a>
+      <a href="/enterprise.html" class="on">Enterprise</a>
     </nav>
-  </header>
-
-  <section class="page-hero on-dark">
-    <div class="hero-wrap split">
-      <div class="hero-copy">
-        <p class="hero-eyebrow">Enterprise · white-label</p>
-        <h1>Every aspect your enterprise needs, <span class="accent">under your brand</span></h1>
-        <p class="hero-sub">Large enterprise accounts run OMEGA as a white-labeled ecosystem inside their own environment — internalizing the engineering, design, permitting, and optimization work that would otherwise be outsourced on every project. One platform to streamline the operation, cut cost and time, and run more efficiently at scale.</p>
-        <div class="hero-actions">
-          <a href="/contact.html" class="btn-primary">Talk to enterprise sales <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-          <a href="/platform.html" class="btn-ghost">See the platform</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <button class="hero-frame" onclick="openVideo(4)" aria-label="Play the ClearSky OMEGA showcase film">
-          <img src="/neon-hero.jpg" alt="ClearSky OMEGA showcase">
-          <span class="hero-play" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
-        </button>
-        <span class="hero-caption"><span class="dot"></span>Watch the showcase · opens on the sales channel</span>
-      </div>
-    </div>
-  </section>
-
-  
-  <div class="proof">
-    <span class="proof-label">Deployed under your brand, in your environment</span>
-    <div class="proof-marks">
-      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V8l8-5 8 5v12"/></svg>EPCs</span>
-      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Developers</span>
-      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Asset owners &amp; investors</span>
-      <span class="proof-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="6" rx="1.5"/><rect x="2" y="14" width="20" height="6" rx="1.5"/></svg>Utilities &amp; large accounts</span>
+    <div class="hd-r">
+      <a class="lg" href="https://silmarillion.clearskyomega.com/login">Log in</a>
+      <a class="btn btn-r" href="/contact.html">Request a demo</a>
     </div>
   </div>
+</header>
 
-
-  <section class="band">
-    <div class="band-inner">
-      <div class="band-copy">
-        <p class="eyebrow">White-label · your brand</p>
-        <h2>The whole ecosystem, wearing your name</h2>
-        <p>Your subdomain, your identity, your deliverables. OMEGA runs front-to-back as your platform — so the engineering, design, and permitting output your teams produce carries your brand and stays in-house.</p>
-        <div class="points">
-          <div class="point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Runs in your environment</strong> — your subdomain, your brand, front to back.</span></div>
-          <div class="point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Saves hundreds of thousands</strong> in engineering and design costs on large projects.</span></div>
-          <div class="point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Standardized, bankable output</strong> across a portfolio of sites.</span></div>
-        </div>
-        <a href="/contact.html" class="band-link">Request an enterprise walkthrough <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="band-visual">
-        <div class="bv-grid"></div>
-        <span class="bv-tag">White-label · your brand</span>
-        <div class="bv-rows">
-          <div class="bv-row"><span class="bvr-l"><span class="bvr-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>Your environment</span><span class="bvr-v">Your subdomain</span></div>
-          <div class="bv-row"><span class="bvr-l"><span class="bvr-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span>Your identity</span><span class="bvr-v">Full white-label</span></div>
-          <div class="bv-row"><span class="bvr-l"><span class="bvr-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Your deliverables</span><span class="bvr-v">Branded output</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section">
-    <div class="section-head">
-      <p class="eyebrow">Who it's for</p>
-      <h2 class="section-title">Four businesses, one platform under your own brand</h2>
-      <p class="section-desc">The same four verticals OMEGA is built around, deployed in your environment and wearing your name. What changes per vertical is which part of the platform your people live in all day.</p>
-    </div>
-    <div class="cards cols-2">
-      <div class="card"><div class="card-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><div class="card-name">OEM &amp; technology channel</div><div class="card-desc">Put your dealers and integrators on a platform that specifies your equipment by default &mdash; your catalogue, your branding, your channel quoting from one set of numbers instead of six spreadsheets.</div></div>
-      <div class="card"><div class="card-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="card-name">Developers, owners &amp; capital</div><div class="card-desc">One standard way to screen, size and underwrite every site in the book. The model does the work an analyst currently redoes per deal, and it does it the same way every time.</div></div>
-      <div class="card"><div class="card-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V8l8-5 8 5v12"/></svg></div><div class="card-name">EPC &amp; engineering services</div><div class="card-desc">Internalise design, drawings, permitting and take-off across the project book &mdash; the engineering you currently buy out, produced in-house and issued on your own title block.</div></div>
-      <div class="card"><div class="card-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="card-name">Installers &amp; sales channel</div><div class="card-desc">Every rep gets the same sizing engine and the same proposal, branded as yours, running on whatever they carry into the field. No install, nothing to sync when they get back.</div></div>
-    </div>
-    <!-- Municipalities are a counterparty, not a customer vertical. They were
-         sitting in this list as a sixth "who it's for", which quietly implied
-         we sell them a white-label deployment. They get their own page. -->
-    <p class="section-desc" style="margin-top:22px">Municipalities and AHJs are not a customer vertical &mdash; they review your permits alongside you, in the <a href="/ahj.html" style="color:var(--cs-blue);font-weight:600">AHJ Approval Portal</a>.</p>
-  </div>
-
-  <section class="cta-strip on-dark">
-    <div class="cta-inner">
-      <h2>Run OMEGA as your own platform</h2>
-      <p>We'll scope a white-label deployment for your brand, your environment, and your project book.</p>
-      <div class="cta-actions">
-        <a href="/contact.html" class="btn-primary">Talk to enterprise sales <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        <a href="/platform.html" class="btn-ghost">See the platform</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============ VIDEO MODAL (SAP-style full-screen takeover) ============ -->
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="ClearSky OMEGA showcase">
-    <div class="video-topbar">
+<main>
+  <section class="hero page-hero">
+    <div class="wrap hero-grid">
       <div>
-        <h3>ClearSky OMEGA in action</h3>
-        <p class="vt-sub">The living energy platform — the data, the marketplace, and the projects it energizes.</p>
+        <span class="sheetno">SHEET W-501</span>
+        <h1>Every aspect your enterprise needs, under your brand</h1>
+        <p class="lede">Run the whole ecosystem under your own brand, in your own environment — internalize engineering, permitting and procurement, and cut the cost you currently buy out.</p>
+        <div class="hero-cta">
+          <a class="btn btn-r" href="/contact.html">Request a demo</a>
+          <button class="btn btn-o" onclick="openVideo(4)">See OMEGA in action</button>
+        </div>
       </div>
-      <div class="video-actions">
-        <button class="video-icon" aria-label="Share" onclick="return false;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg></button>
-        <button class="video-icon" aria-label="Email" onclick="return false;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></button>
-        <button class="video-close" aria-label="Close" onclick="closeVideo()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="sched">
+        <div class="sched-h"><b>Deployment</b><span class="tblabel">WHITE-LABEL</span></div>
+          <div class="sched-r"><i>Brand</i><b class="ok">Yours</b></div>
+          <div class="sched-r"><i>Environment</i><b class="ok">Yours</b></div>
+          <div class="sched-r"><i>Verticals served</i><b>All four</b></div>
+          <div class="sched-r"><i>Engineering</i><b>Internalised</b></div>
+          <div class="sched-r"><i>Outsourced cost</i><b class="hl">Reduced</b></div>
+        <div class="tblock" style="border-top:1px solid var(--rule)">
+          <div><span class="tblabel">Scope</span><b>Whole ecosystem</b></div>
+          <div><span class="tblabel">Tenancy</span><b>Your own</b></div>
+          <div><span class="tblabel">Users</span><b>Your teams</b></div>
+          <div><span class="tblabel">Revision</span><b class="live">LIVE</b></div>
+        </div>
       </div>
     </div>
-    <div class="video-stage" id="videoStage">
-      <img src="/neon-hero.jpg" alt="">
-      <div class="video-placeholder">
-        <span class="vp-badge">Showcase film</span>
-        <p>Enable JavaScript to play the ClearSky OMEGA showcase.</p>
+  </section>
+
+
+  <div class="wrap"><div class="divider"><span>Who it is for</span></div></div>
+
+  <section class="wrap sec" style="margin-top:0">
+    <span class="sheetno">SHEET G-002</span>
+    <h2>Four businesses, one platform under your own brand</h2>
+    <p class="lede" style="margin-top:14px">The same four verticals OMEGA is built around, deployed in your environment and wearing your name. What changes per vertical is which part of the platform your people live in all day.</p>
+    <div style="margin-top:26px">
+      <div class="grid c2">
+        <div class="cell"><h3>OEM &amp; technology channel</h3><p>Put your dealers and integrators on a platform that specifies your equipment by default — your catalogue, your branding, your channel quoting from one set of numbers instead of six spreadsheets.</p></div>
+        <div class="cell"><h3>Developers, owners &amp; capital</h3><p>One standard way to screen, size and underwrite every site in the book. The model does the work an analyst currently redoes per deal, and it does it the same way every time.</p></div>
+        <div class="cell"><h3>EPC &amp; engineering services</h3><p>Internalise design, drawings, permitting and take-off across the project book — the engineering you currently buy out, produced in-house and issued on your own title block.</p></div>
+        <div class="cell"><h3>Installers &amp; sales channel</h3><p>Every rep gets the same sizing engine and the same proposal, branded as yours, running on whatever they carry into the field. No install, nothing to sync when they get back.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider"><span>Not a vertical</span></div></div>
+
+  <section class="wrap sec" style="margin-top:0">
+    <h2>Municipalities and AHJs</h2>
+    <div style="margin-top:26px">
+      <div class="prose"><p>They are a counterparty, not a customer vertical — they review your permits alongside you, in the <a href="/ahj.html" style="color:var(--blue);font-weight:600">AHJ Approval Portal</a>.</p></div>
+    </div>
+  </section>
+
+
+
+  <div class="wrap">
+    <div class="panel close">
+      <span class="stamp">YOUR BRAND</span>
+      <h2>Run OMEGA as your own platform.</h2>
+      <p>We will scope a white-label deployment for your brand, your environment and your project book.</p>
+      <div class="acts">
+        <a class="btn btn-r" href="/contact.html">Talk to enterprise sales</a>
+        <a class="btn btn-o" href="/platform.html">See the platform</a>
       </div>
     </div>
   </div>
+</main>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <img src="/clearsky-logo-light.png" alt="ClearSky">
-        <p>The AI operating platform for energy infrastructure — development, permitting, the virtual data center marketplace, procurement, capital, and Virtual Power Plant optimization in one place.</p>
-        <span class="footer-tag">OMEGA · BESS · EV · MICROGRID · COMPUTE · VPP</span>
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-in">
+      <div>
+        <a class="brand" href="/"><span class="dot"></span>ClearSky&nbsp;<em>OMEGA</em></a>
+        <p>The AI operating platform for energy infrastructure — development, permitting, the virtual data center marketplace, procurement, capital and VPP optimization in one place.</p>
       </div>
-      <div class="footer-col">
-        <h4>Platform</h4>
+      <div><h4>Platform</h4>
         <a href="/platform.html">Development platform</a>
         <a href="/data.html">Data &amp; AI</a>
         <a href="/ahj.html">AHJ Approval Portal</a>
-        <a href="/marketplace.html">Marketplace</a>
-      </div>
-      <div class="footer-col">
-        <h4>Solutions</h4>
+        <a href="/marketplace.html">Marketplace</a></div>
+      <div><h4>Solutions</h4>
         <a href="/enterprise.html">Enterprise white-label</a>
         <a href="/energy.html">Energy projects</a>
         <a href="/partners.html">Partners</a>
-        <a href="/contact.html">Contact sales</a>
-      </div>
-      <div class="footer-col">
-        <h4>Access</h4>
-        <a href="https://silmarillion.clearskyomega.com/login.html">Log in to OMEGA</a>
+        <a href="/contact.html">Contact sales</a></div>
+      <div><h4>Access</h4>
+        <a href="https://silmarillion.clearskyomega.com/login">Log in to OMEGA</a>
         <a href="/contact.html">Request a demo</a>
-        <a href="mailto:info@csebuilders.com">info@csebuilders.com</a>
-      </div>
+        <a href="mailto:info@csebuilders.com">info@csebuilders.com</a></div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2025 ClearSky Builders LLC · ClearSky Energy Solutions LLC · Clinton, Iowa</span>
-      <a href="#top">Back to top ↑</a>
+    <div class="ft-bar">
+      <span>© 2026 ClearSky Builders LLC · ClearSky Energy Solutions LLC · Clinton, Iowa</span>
+      <a href="#" style="text-decoration:none;color:inherit">Back to top ↑</a>
     </div>
-  </footer>
-  <script src="/omega.js"></script>
-  <script src="/omega-reel.js"></script>
+  </div>
+</footer>
+
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="ClearSky OMEGA showcase">
+  <div class="video-topbar">
+    <div><h3>ClearSky OMEGA in action</h3>
+      <p class="vt-sub">The living energy platform — the data, the marketplace, and the projects it energizes.</p></div>
+    <div class="video-actions"><button class="video-close" aria-label="Close" onclick="closeVideo()">✕</button></div>
+  </div>
+  <div class="video-stage" id="videoStage">
+    <div class="video-placeholder"><span class="vp-badge">Showcase film</span>
+      <p>Enable JavaScript to play the ClearSky OMEGA showcase.</p></div>
+  </div>
+</div>
+<script>
+/* Defined before /omega-reel.js so the reel has something to wrap. */
+window.openVideo = function () {
+  var m = document.getElementById('videoModal'); if (!m) return;
+  m.style.display = 'flex'; document.body.style.overflow = 'hidden';
+  void m.offsetWidth; m.classList.add('open');
+};
+window.closeVideo = function () {
+  var m = document.getElementById('videoModal'); if (!m) return;
+  m.classList.remove('open'); document.body.style.overflow = '';
+  setTimeout(function () { m.style.display = 'none'; }, 300);
+};
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.closeVideo(); });
+</script>
+<script src="/omega-reel.js"></script>
 </body>
 </html>
