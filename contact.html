@@ -85,6 +85,16 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:6px;"><label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);">Email</label><input id="f-email" type="email" placeholder="jane@acmecorp.com" style="background:#0A141C;border:0.5px solid var(--cs-border-blue);border-radius:8px;color:#fff;padding:11px 14px;font-family:Inter,sans-serif;font-size:14px;outline:none;"></div>
             <div style="display:flex;flex-direction:column;gap:6px;"><label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);">Interest area</label>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"><label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);">Which best describes you?</label>
+              <select id="f-vertical" style="background:#0A141C;border:0.5px solid var(--cs-border-blue);border-radius:8px;color:#fff;padding:11px 14px;font-family:Inter,sans-serif;font-size:14px;outline:none;">
+                <option value="">Select your business</option>
+                <option>OEM &amp; technology channel</option>
+                <option>Developers, owners &amp; capital</option>
+                <option>EPC &amp; engineering services</option>
+                <option>Installers &amp; sales channel</option>
+                <option>Municipality or AHJ</option>
+                <option>Something else</option>
+              </select></div>
               <select id="f-segment" style="background:#0A141C;border:0.5px solid var(--cs-border-blue);border-radius:8px;color:#fff;padding:11px 14px;font-family:Inter,sans-serif;font-size:14px;outline:none;">
                 <option value="">Select an area</option>
                 <option>OMEGA Platform</option>
@@ -98,11 +108,13 @@
             <div style="display:flex;flex-direction:column;gap:6px;"><label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);">Tell us about your site or portfolio</label><textarea id="f-message" placeholder="Location, approximate load or utility bill, asset class of interest, any existing solar or storage..." style="background:#0A141C;border:0.5px solid var(--cs-border-blue);border-radius:8px;color:#fff;padding:11px 14px;font-family:Inter,sans-serif;font-size:14px;outline:none;resize:vertical;min-height:96px;"></textarea></div>
             <button class="btn-primary" style="width:100%;justify-content:center;" onclick="submitForm()">Send inquiry</button>
           </div>
-          <div id="form-success" style="display:none;text-align:center;padding:32px;color:var(--cs-blue-bright);font-family:Syne,sans-serif;">
-            <p style="font-size:20px;font-weight:700;">&#10003; Message received.</p>
-            <p style="font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-top:10px;">We'll be in touch within 24 hours.</p>
+          <div id="form-success" style="display:none">
+            <p style="font-family:Syne,sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:10px">Your email app should have opened.</p>
+            <p style="color:rgba(255,255,255,0.72);font-size:14px;line-height:1.6">Your message is in it, ready to send &mdash; it is not sent until you press send there.</p>
+            <p style="color:rgba(255,255,255,0.72);font-size:14px;line-height:1.6;margin-top:12px">If nothing opened, plenty of browsers have no mail app set up. Copy the message and send it to <a id="cf-addr" href="mailto:info@csebuilders.com" style="color:var(--cs-blue-bright);font-weight:600">info@csebuilders.com</a>.</p>
+            <button type="button" id="cf-copy" onclick="copyInquiry()" class="btn-ghost" style="margin-top:16px">Copy my message</button>
+            <pre id="cf-text" style="margin-top:14px;white-space:pre-wrap;background:#0A141C;border:0.5px solid var(--cs-border-blue);border-radius:8px;padding:12px 14px;color:rgba(255,255,255,0.8);font:13px/1.6 Inter,sans-serif;max-height:220px;overflow:auto"></pre>
           </div>
-        </div>
       </div>
     </div>
   </section>
@@ -120,18 +132,63 @@
 
 
   <script>
+    /* ── THIS USED TO LIE ──────────────────────────────────────────────
+       submitForm() hid the form and printed "Message received. We'll be in
+       touch within 24 hours." BEFORE it did anything, and the only thing it
+       then did was set window.location to a mailto:. A mailto: does nothing
+       at all on a machine with no mail client registered, which is most
+       people on webmail — so the visitor read a confirmation, closed the
+       tab, and the inquiry never existed. On the main call to action of the
+       whole site, silently losing the lead is the worst outcome available.
+
+       There is no form endpoint on this deployment to POST to, so the
+       mailto stays — but the copy now says what actually happened, gives
+       the address in a form somebody can act on, and hands back the message
+       so a webmail user can paste it. Honest and recoverable beats a
+       confirmation nobody earned.
+
+       The real fix is a form endpoint; the mail sender already exists in
+       omega-core. Until then this must not claim delivery. */
+    function inquiryText() {
+      function v(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+      return 'Name: ' + v('f-name')
+        + '\nCompany: ' + v('f-company')
+        + '\nEmail: ' + v('f-email')
+        + '\nBusiness: ' + v('f-vertical')
+        + '\nInterest: ' + v('f-segment')
+        + '\n\n' + v('f-message');
+    }
+
     function submitForm() {
-      var name = document.getElementById('f-name').value.replace(/^\s+|\s+$/g,'');
-      var email = document.getElementById('f-email').value.replace(/^\s+|\s+$/g,'');
+      var name  = document.getElementById('f-name').value.replace(/^\s+|\s+$/g, '');
+      var email = document.getElementById('f-email').value.replace(/^\s+|\s+$/g, '');
       if (!name || !email) { alert('Please enter your name and email.'); return; }
+
+      var body = inquiryText();
+      var href = 'mailto:info@csebuilders.com'
+               + '?subject=' + encodeURIComponent('ClearSky OMEGA inquiry \u2014 ' + name)
+               + '&body=' + encodeURIComponent(body);
+
+      /* Open the client FIRST, then show the panel — so the panel is
+         describing something that has already been attempted rather than
+         predicting it. */
+      try { window.location.href = href; } catch (e) {}
+
+      var pre = document.getElementById('cf-text');
+      if (pre) { pre.textContent = body; }
+      var addr = document.getElementById('cf-addr');
+      if (addr) { addr.setAttribute('href', href); }
       document.getElementById('contact-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
-      var subject = encodeURIComponent('ClearSky OMEGA Inquiry - ' + name);
-      var seg = document.getElementById('f-segment').value;
-      var company = document.getElementById('f-company').value;
-      var msg = document.getElementById('f-message').value;
-      var body = encodeURIComponent('Name: ' + name + '\nCompany: ' + company + '\nEmail: ' + email + '\nInterest: ' + seg + '\n\n' + msg);
-      window.location.href = 'mailto:info@csebuilders.com?subject=' + subject + '&body=' + body;
+    }
+
+    function copyInquiry() {
+      var btn = document.getElementById('cf-copy');
+      var txt = document.getElementById('cf-text').textContent;
+      function done(ok) { if (btn) { btn.textContent = ok ? 'Copied' : 'Select the text above to copy'; } }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); });
+      } else { done(false); }
     }
   </script>
 
