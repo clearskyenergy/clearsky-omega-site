@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/omega.css">
+  <link rel="stylesheet" href="/omega-reel.css">
 </head>
 <body>
 <div id="top"></div>
@@ -211,11 +212,15 @@
         <button class="video-close" aria-label="Close" onclick="closeVideo()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
     </div>
+    <!-- The reel is built into this stage by /omega-reel.js when the modal
+         first opens. The poster and the placeholder stay as the no-JS
+         fallback: if the script never runs, the slot still says something
+         truthful instead of showing an empty black box. -->
     <div class="video-stage" id="videoStage">
       <img src="/neon-hero.jpg" alt="">
       <div class="video-placeholder">
-        <span class="vp-badge">Showcase film · coming soon</span>
-        <p>Our film is in production. Drop the final cut in as <code>omega-showcase.mp4</code> and it plays here full-screen.</p>
+        <span class="vp-badge">Showcase film</span>
+        <p>Enable JavaScript to play the ClearSky OMEGA showcase.</p>
       </div>
     </div>
   </div>
@@ -255,5 +260,6 @@
     </div>
   </footer>
   <script src="/omega.js"></script>
+  <script src="/omega-reel.js"></script>
 </body>
 </html>

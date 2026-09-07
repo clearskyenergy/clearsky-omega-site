@@ -1,0 +1,253 @@
+/* ============================================================
+   ClearSky OMEGA — showcase reel
+   A silent, looping, web-native film that plays in the video
+   modal. No footage, no vendor, no MP4: the same SVG and type
+   the product is built from, on a timeline.
+
+   Every figure on screen is ILLUSTRATIVE. This is a public
+   marketing page, so it carries no customer's real coordinates,
+   costs or capacity — plausible numbers, invented on purpose.
+
+   Structure: one .rs section per act, absolutely stacked. The
+   timeline in omega-reel.js adds .is-live to exactly one at a
+   time; everything below animates off that class, so scrubbing
+   backwards replays cleanly instead of leaving half-run states.
+   ============================================================ */
+
+.reel {
+  position: absolute; inset: 0; z-index: 3;
+  background: #070C12;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #E8F0F7;
+  --oem:  #00AEEF;
+  --dev:  #F2B44C;
+  --epc:  #8FA6FF;
+  --inst: #5FD9A0;
+  --muted: #8FA3B4;
+  --line: rgba(143,163,180,0.20);
+}
+.reel * { box-sizing: border-box; }
+
+/* Ambient ground: a survey grid that drifts, and a slow accent wash.
+   Both sit under everything and never draw the eye on their own. */
+.reel-grid {
+  position: absolute; inset: -10%;
+  background-image:
+    linear-gradient(rgba(143,163,180,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143,163,180,0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: reelDrift 38s linear infinite;
+}
+@keyframes reelDrift { to { transform: translate(46px, 46px); } }
+.reel-wash {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(0,174,239,0.13), transparent 70%);
+  transition: background 900ms ease;
+}
+.reel[data-act="2"] .reel-wash { background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(242,180,76,0.13), transparent 70%); }
+.reel[data-act="3"] .reel-wash { background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(143,166,255,0.13), transparent 70%); }
+.reel[data-act="4"] .reel-wash { background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(95,217,160,0.13), transparent 70%); }
+.reel[data-act="5"] .reel-wash { background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,174,239,0.16), transparent 72%); }
+
+/* ── acts ─────────────────────────────────────────────────── */
+.reel-scenes { position: absolute; inset: 0; }
+.rs {
+  position: absolute; inset: 0;
+  display: flex; align-items: center;
+  padding: clamp(28px, 5vw, 72px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 520ms ease, visibility 0s linear 520ms;
+}
+.rs.is-live { opacity: 1; visibility: visible; transition: opacity 520ms ease; }
+
+/* Every animated child is parked in its resting state and only
+   released by .is-live — so a scrub back to 0 shows act one from
+   the top, not a frozen frame of wherever it got to. */
+.rs .anim { opacity: 0; transform: translateY(14px); }
+.rs.is-live .anim { animation: reelIn 620ms cubic-bezier(.22,.8,.28,1) forwards; }
+@keyframes reelIn { to { opacity: 1; transform: none; } }
+
+.rs-body { position: relative; z-index: 2; max-width: 46%; }
+.rs-eyebrow {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 20px;
+}
+.rs-eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; font-style: normal; }
+.rs-title {
+  font-family: 'Syne', system-ui, sans-serif;
+  font-size: clamp(30px, 4.1vw, 60px); font-weight: 800;
+  letter-spacing: -1.4px; line-height: 1.02; text-wrap: balance;
+}
+.rs-sub {
+  margin-top: 18px; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.6;
+  color: rgba(232,240,247,0.72); max-width: 34ch;
+}
+.rs-note {
+  margin-top: 22px; font-size: 12.5px; color: var(--muted);
+  padding-left: 13px; border-left: 2px solid var(--line);
+}
+
+/* ── the proof panel on the right ─────────────────────────── */
+.rs-panel {
+  position: absolute; right: clamp(28px, 5vw, 72px);
+  top: 50%; transform: translateY(-50%);
+  width: min(46%, 520px);
+  background: rgba(11,18,25,0.82);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px 22px;
+  backdrop-filter: blur(6px);
+}
+.rs-panel-h {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); padding-bottom: 12px; margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Rows that arrive one at a time, so the panel reads as something
+   being computed rather than a table that was always there. */
+.rs-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding: 8px 0; font-size: 13.5px;
+  opacity: 0; transform: translateX(-10px);
+}
+.rs.is-live .rs-row { animation: rowIn 420ms ease forwards; }
+@keyframes rowIn { to { opacity: 1; transform: none; } }
+.rs-row + .rs-row { border-top: 1px solid rgba(143,163,180,0.10); }
+.rs-row b { font-weight: 500; color: rgba(232,240,247,0.88); }
+.rs-row span {
+  font-variant-numeric: tabular-nums; font-weight: 600;
+  color: var(--muted); white-space: nowrap;
+}
+.rs-row.hi span { color: var(--k); }
+
+.rs-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 16px; padding: 8px 14px; border-radius: 20px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--k); background: color-mix(in srgb, var(--k) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--k) 34%, transparent);
+  opacity: 0;
+}
+.rs.is-live .rs-chip { animation: reelIn 520ms ease forwards; }
+
+/* ── act 0: the parcel draws itself ───────────────────────── */
+.rs-plot { position: absolute; inset: 0; z-index: 1; }
+/* Type wins over the drawing, always. The reel's copy sits on the left of
+   the frame and the campus on the right; this fades the drawing out
+   underneath the words so a dense pod field can never land on a headline
+   and leave both unreadable. */
+.rs-plot::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to right, #070C12 0%, rgba(7,12,18,0.94) 30%, rgba(7,12,18,0.35) 52%, transparent 68%);
+}
+.rs-plot svg { width: 100%; height: 100%; }
+.plot-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.plot-trace { stroke-dasharray: 2400; stroke-dashoffset: 2400; }
+.rs.is-live .plot-trace { animation: traceOn 2600ms cubic-bezier(.4,0,.2,1) forwards; }
+@keyframes traceOn { to { stroke-dashoffset: 0; } }
+.plot-pod { opacity: 0; }
+.rs.is-live .plot-pod { animation: podIn 380ms ease forwards; }
+@keyframes podIn { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+
+/* ── act 5: the four ways in ──────────────────────────────── */
+.rs-close { flex-direction: column; justify-content: center; text-align: center; }
+.rs-close .rs-body { max-width: 100%; text-align: center; }
+.rs-close .rs-sub { margin-left: auto; margin-right: auto; max-width: 48ch; }
+.rs-quad {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px; margin-top: 34px; width: min(100%, 860px);
+  margin-left: auto; margin-right: auto;
+}
+.rs-quad div {
+  border: 1px solid color-mix(in srgb, var(--k) 32%, transparent);
+  background: color-mix(in srgb, var(--k) 9%, transparent);
+  border-radius: 11px; padding: 15px 12px;
+  font-size: 12.5px; font-weight: 600; color: var(--k);
+  opacity: 0; transform: translateY(12px);
+}
+.rs.is-live .rs-quad div { animation: reelIn 560ms cubic-bezier(.22,.8,.28,1) forwards; }
+.rs-quad em { display: block; font-style: normal; font-weight: 400; font-size: 11px;
+  color: rgba(232,240,247,0.55); margin-top: 6px; line-height: 1.4; }
+
+/* ── chapter rail + transport ─────────────────────────────── */
+.reel-hud {
+  position: absolute; left: clamp(28px, 5vw, 72px); top: clamp(20px, 3vw, 34px);
+  z-index: 6; display: flex; align-items: center; gap: 10px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.reel-hud b { color: rgba(232,240,247,0.9); font-weight: 700; }
+
+.reel-transport {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 7;
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px clamp(28px, 5vw, 72px) 18px;
+  background: linear-gradient(to top, rgba(7,12,18,0.94), rgba(7,12,18,0));
+}
+.reel-btn {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+  border: 1px solid var(--line); background: rgba(232,240,247,0.06);
+  color: #E8F0F7; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 160ms, border-color 160ms;
+}
+.reel-btn:hover { background: rgba(0,174,239,0.16); border-color: rgba(0,174,239,0.45); }
+.reel-btn:focus-visible { outline: 2px solid var(--oem); outline-offset: 2px; }
+
+.reel-chapters { display: flex; gap: 6px; flex: 1; min-width: 0; }
+.reel-chap {
+  flex: 1; min-width: 0; border: none; padding: 0; cursor: pointer;
+  background: none; text-align: left; color: inherit;
+}
+.reel-chap:focus-visible { outline: 2px solid var(--oem); outline-offset: 3px; }
+.reel-chap-bar {
+  height: 3px; border-radius: 2px; background: rgba(143,163,180,0.22); overflow: hidden;
+}
+.reel-chap-bar i { display: block; height: 100%; width: 0; background: var(--k); border-radius: 2px; }
+.reel-chap-l {
+  display: block; margin-top: 9px; font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.04em; color: rgba(143,163,180,0.72);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color 200ms;
+}
+.reel-chap[aria-current="true"] .reel-chap-l { color: #E8F0F7; }
+
+.reel-cta {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 22px; text-decoration: none;
+  font-size: 12.5px; font-weight: 700;
+  background: var(--oem); color: #04121A;
+  transition: filter 160ms;
+}
+.reel-cta:hover { filter: brightness(1.1); }
+
+/* ── narrow ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .rs { flex-direction: column; justify-content: center; align-items: flex-start; }
+  .rs-body { max-width: 100%; }
+  .rs-panel { position: relative; right: auto; top: auto; transform: none; width: 100%; margin-top: 22px; }
+  .rs-quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reel-chap-l { display: none; }
+  .reel-hud { display: none; }
+}
+
+/* Motion is the whole medium here, so reduced-motion does not get a
+   degraded film — it gets the same content with the timeline stopped
+   and every act laid out at once, which is a page, not a broken reel. */
+@media (prefers-reduced-motion: reduce) {
+  .reel-grid { animation: none; }
+  .rs, .rs .anim, .rs .rs-row, .rs .rs-chip, .rs .rs-quad div { animation: none !important; transition: none !important; }
+  .reel[data-static="1"] .rs { position: relative; inset: auto; opacity: 1; visibility: visible; min-height: auto; padding: 26px clamp(20px,4vw,48px); }
+  .reel[data-static="1"] .rs .anim,
+  .reel[data-static="1"] .rs .rs-row,
+  .reel[data-static="1"] .rs .rs-chip,
+  .reel[data-static="1"] .rs .rs-quad div { opacity: 1; transform: none; }
+  .reel[data-static="1"] { overflow-y: auto; }
+  .reel[data-static="1"] .reel-scenes { position: relative; inset: auto; }
+  .reel[data-static="1"] .rs-plot { display: none; }
+  .reel[data-static="1"] .reel-transport { position: sticky; }
+}
