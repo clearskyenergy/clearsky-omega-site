@@ -50,12 +50,18 @@
 
       <div class="panel" style="padding:28px">
         <div id="contact-form"><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Name</label><input id="f-name" type="text" placeholder="Jane Smith" style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%"></div><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Company</label><input id="f-company" type="text" placeholder="Acme Corp" style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%"></div><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Work email</label><input id="f-email" type="email" placeholder="jane@acmecorp.com" style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%"></div><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Which best describes you?</label><select id="f-vertical" style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%"><option value="">Select your business</option><option>OEM &amp; technology channel</option><option>Developers, owners &amp; capital</option><option>EPC &amp; engineering services</option><option>Installers &amp; sales channel</option><option>Municipality or AHJ</option><option>Something else</option></select></div><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Area of interest</label><select id="f-segment" style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%"><option value="">Select an area</option><option>OMEGA Platform</option><option>Data &amp; AI optimization</option><option>Marketplace &amp; VPP</option><option>Virtual data center / compute</option><option>Enterprise white-label</option><option>Energy project / site</option></select></div><div style="margin-bottom:16px"><label class="tblabel" style="display:block;margin-bottom:6px">Tell us about your site or portfolio</label><textarea id="f-message" placeholder="Location, approximate load or utility bill, asset class of interest, any existing solar or storage..." style="background:var(--pa-2);border:1px solid var(--rule);color:var(--ink);padding:11px 13px;font:14px Inter,sans-serif;outline:none;width:100%;resize:vertical;min-height:110px"></textarea></div>
-          <button type="button" class="btn btn-r" onclick="submitForm()" style="width:100%;justify-content:center">Send inquiry</button>
+          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Leave this empty<input id="f-website" type="text" tabindex="-1" autocomplete="off"></label></div>
+          <button type="button" id="cf-send" class="btn btn-r" onclick="submitForm()" style="width:100%;justify-content:center">Send inquiry</button>
+          <p style="color:var(--ink-3);font-size:12.5px;margin-top:10px">Goes to <a href="mailto:dev@clearsky-usa.com" style="color:var(--blue)">dev@clearsky-usa.com</a>, read by the ClearSky team.</p>
+        </div>
+        <div id="form-sent" style="display:none">
+          <h3 style="margin-bottom:10px">Received.</h3>
+          <p style="color:var(--ink-2);font-size:14px"><span id="cs-name"></span>, your request is with the ClearSky team. We reply from <a href="mailto:dev@clearsky-usa.com" style="color:var(--blue);font-weight:600">dev@clearsky-usa.com</a>, usually within one business day.</p>
         </div>
         <div id="form-success" style="display:none">
           <h3 style="margin-bottom:10px">Your email app should have opened.</h3>
           <p style="color:var(--ink-2);font-size:14px">Your message is in it, ready to send — it is not sent until you press send there.</p>
-          <p style="color:var(--ink-2);font-size:14px;margin-top:12px">If nothing opened, plenty of browsers have no mail app set up. Copy the message and send it to <a id="cf-addr" href="mailto:info@csebuilders.com" style="color:var(--blue);font-weight:600">info@csebuilders.com</a>.</p>
+          <p style="color:var(--ink-2);font-size:14px;margin-top:12px">If nothing opened, plenty of browsers have no mail app set up. Copy the message and send it to <a id="cf-addr" href="mailto:dev@clearsky-usa.com" style="color:var(--blue);font-weight:600">dev@clearsky-usa.com</a>.</p>
           <button type="button" id="cf-copy" class="btn btn-o" onclick="copyInquiry()" style="margin-top:16px">Copy my message</button>
           <pre id="cf-text" class="mono" style="margin-top:14px;white-space:pre-wrap;background:var(--pa);border:1px solid var(--rule);padding:12px 14px;color:var(--ink-2);font-size:12.5px;line-height:1.6;max-height:220px;overflow:auto"></pre>
         </div>
@@ -86,7 +92,7 @@
       <div><h4>Platform</h4>
         <a href="/platform.html">Development platform</a>
         <a href="/data.html">Data &amp; AI</a>
-        <a href="/ahj.html">AHJ Approval Portal</a>
+        <a href="/ahj.html">AHJ Approval Portal <span class="soon">Soon</span></a>
         <a href="/marketplace.html">Marketplace</a></div>
       <div><h4>Solutions</h4>
         <a href="/enterprise.html">Enterprise white-label</a>
@@ -95,8 +101,9 @@
         <a href="/contact.html">Contact sales</a></div>
       <div><h4>Access</h4>
         <a href="https://silmarillion.clearskyomega.com/login">Log in to OMEGA</a>
+        <a href="https://silmarillion.clearskyomega.com/offerings">Pricing</a>
         <a href="/contact.html">Request a demo</a>
-        <a href="mailto:info@csebuilders.com">info@csebuilders.com</a></div>
+        <a href="mailto:dev@clearsky-usa.com">dev@clearsky-usa.com</a></div>
     </div>
     <div class="ft-bar">
       <span>© 2026 ClearSky Builders LLC · ClearSky Energy Solutions LLC · Clinton, Iowa</span>
@@ -117,31 +124,68 @@
   </div>
 </div>
 <script>
-/* THE FORM MUST NOT CLAIM A SEND IT CANNOT MAKE. There is no endpoint on
-   this deployment, so the mailto stays — but the client is opened FIRST and
-   the panel then describes what actually happened, hands back the composed
-   message and names the address, so a visitor with no mail app can still
-   finish. The previous version printed "Message received" before doing
-   anything, which silently lost every lead from a webmail user. */
+/* THE FORM MUST NOT CLAIM A SEND IT CANNOT MAKE.
+   First choice: POST the request to OMEGA (/api/demo-request), which records
+   it on the sales board and mails dev@clearsky-usa.com. "Received" is shown
+   only on the server's own yes. Anything else (offline, blocked, a deploy
+   that has not landed) falls back to the mail app with the message composed
+   and the address named, so a visitor with no mail app can still finish.
+   The previous version printed "Message received" before doing anything,
+   which silently lost every lead from a webmail user. */
+var DEMO_TO = 'dev@clearsky-usa.com';
+var DEMO_API = 'https://silmarillion.clearskyomega.com/api/demo-request';
+function val(id) { var e = document.getElementById(id); return e ? String(e.value || '').replace(/^\s+|\s+$/g, '') : ''; }
 function inquiryText() {
-  function v(id) { var e = document.getElementById(id); return e ? e.value : ''; }
-  return 'Name: ' + v('f-name') + '\nCompany: ' + v('f-company') + '\nEmail: ' + v('f-email')
-       + '\nBusiness: ' + v('f-vertical') + '\nInterest: ' + v('f-segment')
-       + '\n\n' + v('f-message');
+  return 'Name: ' + val('f-name') + '\nCompany: ' + val('f-company') + '\nEmail: ' + val('f-email')
+       + '\nBusiness: ' + val('f-vertical') + '\nInterest: ' + val('f-segment')
+       + '\n\n' + val('f-message');
 }
-function submitForm() {
-  var name = document.getElementById('f-name').value.replace(/^\s+|\s+$/g,'');
-  var email = document.getElementById('f-email').value.replace(/^\s+|\s+$/g,'');
-  if (!name || !email) { alert('Please enter your name and email.'); return; }
+function byMail(name) {
   var body = inquiryText();
-  var href = 'mailto:info@csebuilders.com?subject='
-           + encodeURIComponent('ClearSky OMEGA inquiry \u2014 ' + name)
+  var href = 'mailto:' + DEMO_TO + '?subject='
+           + encodeURIComponent('ClearSky OMEGA inquiry — ' + name)
            + '&body=' + encodeURIComponent(body);
   try { window.location.href = href; } catch (e) {}
   document.getElementById('cf-text').textContent = body;
   document.getElementById('cf-addr').setAttribute('href', href);
   document.getElementById('contact-form').style.display = 'none';
   document.getElementById('form-success').style.display = 'block';
+}
+function submitForm() {
+  var name = val('f-name'), email = val('f-email');
+  if (!name || !email) { alert('Please enter your name and email.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please check the email address.'); return; }
+  var btn = document.getElementById('cf-send');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  var t = (window.OmegaAttribution && window.OmegaAttribution.get()) || {};
+  var payload = {
+    name: name, company: val('f-company'), email: email,
+    vertical: val('f-vertical'), interest: val('f-segment'), message: val('f-message'),
+    website: val('f-website'),
+    page: window.location.pathname,
+    source: { utm_source: t.source || '', utm_medium: t.medium || '', utm_campaign: t.campaign || '',
+              utm_content: t.content || '', ref: t.ref || '', landing: t.landing || '' }
+  };
+  var done = false;
+  function fallback() { if (done) return; done = true; byMail(name); }
+  try {
+    var x = new XMLHttpRequest();
+    x.open('POST', DEMO_API, true);
+    x.setRequestHeader('Content-Type', 'application/json');
+    x.timeout = 10000;
+    x.onload = function () {
+      if (done) return;
+      var ok = false;
+      try { ok = x.status === 200 && JSON.parse(x.responseText || '{}').ok === true; } catch (e) {}
+      if (!ok) return fallback();
+      done = true;
+      document.getElementById('cs-name').textContent = name;
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('form-sent').style.display = 'block';
+    };
+    x.onerror = fallback; x.ontimeout = fallback; x.onabort = fallback;
+    x.send(JSON.stringify(payload));
+  } catch (e) { fallback(); }
 }
 function copyInquiry() {
   var btn = document.getElementById('cf-copy');
@@ -166,6 +210,7 @@ window.closeVideo = function () {
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.closeVideo(); });
 
 </script>
+<script src="/omega-attribution.js"></script>
 <script src="/omega-reel.js"></script>
 </body>
 </html>
