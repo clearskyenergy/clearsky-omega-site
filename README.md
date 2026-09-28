@@ -16,11 +16,17 @@ identical across pages because they all link the same `omega.css` / `omega.js`.
 - `index.html` — home (SAP-style hero, neon video trigger, ecosystem pillars, links out)
 - `platform.html` / `data.html` / `marketplace.html` / `energy.html` / `enterprise.html`
   / `ahj.html` / `partners.html` — interior pages (split hero: copy left, neon video right)
-- `contact.html` — request a demo (mailto form)
+- `contact.html` — request a demo. POSTs to OMEGA `/api/demo-request` (omega-core), which
+  records the lead on the sales board and mails dev@clearsky-usa.com; if that call fails the
+  form falls back to the visitor's mail app, addressed to dev@clearsky-usa.com. "Received"
+  is shown only on the server's own yes.
 - `login.html` — the OMEGA gateway: every tenant signs in here, and the page routes
   them to their own workspace. See "Tenant sign-in" below.
 
 ## Shared files
+- `omega-attribution.js` — keeps the first touch (utm tags, referring site, landing page) in
+  this browser only, so the demo request can say which LinkedIn post brought the lead. No
+  cookie, no third party.
 - `omega.css` — all styles (header, hero, cards, bands, footer, full-screen video modal, responsive)
 - `omega.js` — mobile nav + video modal open/close with fade (ES5, no build)
 
@@ -75,3 +81,13 @@ picks it up. It replaced a three-band CSS gradient that was not the US flag.
 Pages use absolute paths (/omega.css, /neon-hero.jpg). These resolve correctly when served
 from a web root (Vercel, or `python3 -m http.server`). Opening the .html files directly with
 file:// will not load the CSS/JS/images — always preview through a server or after deploy.
+
+## What the site may and may not say
+- The contact address is **dev@clearsky-usa.com** (the same as `SUPPORT_EMAIL` in omega-core).
+  csebuilders.com was retired on 2026-09-24 and is never written again.
+- A sheet for something the product does not ship yet carries `<span class="soon">`: the AHJ
+  Approval Portal and procurement pooling are `soon:true` in omega-core `omega-tools.js`. When
+  the product ships one, take the badge off in the same week.
+- Module and plan prices live in ONE place, the public price list
+  (https://silmarillion.clearskyomega.com/offerings, from `GET /api/offerings`). The footer links
+  to it; never paste a price into a page here, where it would drift from the book.

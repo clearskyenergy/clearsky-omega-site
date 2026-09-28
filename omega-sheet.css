@@ -339,3 +339,10 @@ body.sheet {
 .page-hero .lede { margin-top: 18px; }
 .sec { margin-top: 66px; }
 .hd nav a.on { color: var(--ink); font-weight: 600; }
+
+/* "Coming soon" — for a sheet that describes something the product does not
+   ship yet (omega-tools.js marks it soon:true). Said on the page, not implied. */
+.soon { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 1px 7px;
+  border: 1px solid var(--rule); border-radius: 3px; background: var(--pa-2);
+  font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
